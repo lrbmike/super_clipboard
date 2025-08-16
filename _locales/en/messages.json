@@ -31,6 +31,10 @@
     "message": "Copy",
     "description": "Title for the copy button"
   },
+  "copiedButtonTitle": {
+    "message": "Copied!",
+    "description": "Title for the copy button when text is copied"
+  },
   "editButtonTitle": {
     "message": "Edit",
     "description": "Title for the edit button"

@@ -168,6 +168,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
         itemDiv.querySelector('.copy-btn').addEventListener('click', () => {
           navigator.clipboard.writeText(item.text);
+          
+          // 添加复制成功的提示
+          const copyBtn = itemDiv.querySelector('.copy-btn');
+          const originalTitle = copyBtn.title;
+          copyBtn.title = chrome.i18n.getMessage("copiedButtonTitle") || "Copied!";
+          copyBtn.textContent = "✓";
+          
+          // 2秒后恢复原始状态
+          setTimeout(() => {
+            copyBtn.title = originalTitle;
+            copyBtn.textContent = "📋";
+          }, 2000);
         });
 
         const itemTextDiv = itemDiv.querySelector('.item-text');
