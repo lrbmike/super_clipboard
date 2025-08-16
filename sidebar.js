@@ -3,6 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const clipboardList = document.getElementById('clipboard-list');
   const tagFilterContainer = document.getElementById('tag-filter-container');
   let selectedTag = null;
+  let currentPage = 1;
+  const itemsPerPage = 20;
 
   const renderTagFilters = (items) => {
     const allTags = [...new Set(items.flatMap(item => item.tags))];
@@ -13,6 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     allButton.className = selectedTag === null ? 'active' : '';
     allButton.addEventListener('click', () => {
       selectedTag = null;
+      currentPage = 1;
       loadClipboardItems();
     });
     tagFilterContainer.appendChild(allButton);
@@ -23,6 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
       tagButton.className = selectedTag === tag ? 'active' : '';
       tagButton.addEventListener('click', () => {
         selectedTag = tag;
+        currentPage = 1;
         loadClipboardItems();
       });
       tagFilterContainer.appendChild(tagButton);
@@ -31,7 +35,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const renderClipboardItems = (items) => {
     clipboardList.innerHTML = '';
-    const groupedByDate = items.reduce((groups, item) => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const paginatedItems = items.slice(startIndex, endIndex);
+
+    const groupedByDate = paginatedItems.reduce((groups, item) => {
       const date = new Date(item.timestamp).toLocaleDateString();
       if (!groups[date]) {
         groups[date] = [];
@@ -61,6 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>
           <div class="item-text" contenteditable="false">${item.text}</div>
           <div class="item-tags"></div>
+          <div class="item-domain">${item.domain}</div>
         `;
 
         itemDiv.querySelector('.copy-btn').addEventListener('click', () => {
@@ -131,7 +140,11 @@ document.addEventListener('DOMContentLoaded', () => {
             chrome.storage.local.get({ clipboard: [] }, (result) => {
               const newClipboard = result.clipboard.map(clip => {
                 if (clip.timestamp === item.timestamp) {
-                  clip.tags.push(newTag);
+                  if (clip.tags.length < 3) { // Limit to 3 tags
+                    clip.tags.push(newTag);
+                  } else {
+                    alert('You can only add up to 3 tags per item.');
+                  }
                 }
                 return clip;
               });
@@ -144,6 +157,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
         clipboardList.appendChild(itemDiv);
       });
+    }
+
+    // Pagination controls
+    const totalPages = Math.ceil(items.length / itemsPerPage);
+    if (totalPages > 1) {
+      const paginationDiv = document.createElement('div');
+      paginationDiv.className = 'pagination';
+      for (let i = 1; i <= totalPages; i++) {
+        const pageButton = document.createElement('button');
+        pageButton.textContent = i;
+        pageButton.className = currentPage === i ? 'active' : '';
+        pageButton.addEventListener('click', () => {
+          currentPage = i;
+          loadClipboardItems();
+        });
+        paginationDiv.appendChild(pageButton);
+      }
+      clipboardList.appendChild(paginationDiv);
     }
   };
 
