@@ -21,12 +21,11 @@ A powerful clipboard extension for Chrome that helps you better manage and organ
 4. Click "Load unpacked" and select this project folder
 5. Once installed, you can use the extension in two ways:
    - Click the extension icon in the browser toolbar to open the clipboard panel
-   - Select text on a webpage, right-click, and choose "复制到我的剪切板" (Copy to My Clipboard) to add content to the clipboard
+   - Select text on a webpage, right-click, and choose "Copy to Super Clipboard" to add content to the clipboard
 
 ## Interface Overview
 
 ### Main Panel
-- Top displays the extension title "Super Clipboard"
 - Search box: Search through clipboard content
 - Tag area: Shows frequently used tags, click to filter
 - Content list: Displays clipboard items grouped by date

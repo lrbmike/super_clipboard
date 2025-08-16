@@ -4,11 +4,17 @@ document.addEventListener('DOMContentLoaded', () => {
   const tagSearchWrapper = document.getElementById('tag-search-wrapper');
   const clipboardList = document.getElementById('clipboard-list');
   const toggleTagsBtn = document.getElementById('toggle-tags-btn');
-  const tagsContainer = document.getElementById('tags-container'); // 更新为新的标签容器
+  const tagsContainer = document.getElementById('tags-container');
+  const tagsTitle = document.getElementById('tags-title');
   let selectedTag = null;
   let currentPage = 1;
-  const itemsPerPage = 10;
+  const itemsPerPage = 5;
   let isTagsExpanded = false;
+
+  // 设置国际化文本（保留标题为英文）
+  tagsTitle.textContent = chrome.i18n.getMessage("tagsTitle") || "Tags";
+  searchBox.placeholder = chrome.i18n.getMessage("searchPlaceholder") || "Search clipboard items...";
+  tagSearchBox.placeholder = chrome.i18n.getMessage("tagSearchPlaceholder") || "Search tags...";
 
   // 切换标签显示/隐藏
   toggleTagsBtn.addEventListener('click', () => {
@@ -64,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // 添加"All"按钮，初始状态为选中
     const allButton = document.createElement('button');
-    allButton.textContent = 'All';
+    allButton.textContent = chrome.i18n.getMessage("allTagsButton") || "All";
     allButton.className = selectedTag === null ? 'tag-button active' : 'tag-button';
     allButton.addEventListener('click', () => {
         selectedTag = null;
@@ -148,11 +154,11 @@ document.addEventListener('DOMContentLoaded', () => {
           <div class="item-header">
             <div class="item-time">${new Date(item.timestamp).toLocaleTimeString()}</div>
             <div class="item-actions">
-              <button class="copy-btn" title="Copy">📋</button>
-              <button class="edit-btn" title="Edit">✏️</button>
-              <button class="delete-btn" title="Delete">🗑️</button>
-              <a href="${item.url}" target="_blank" title="Go to link">🔗</a>
-              <button class="add-tag-btn" title="Add Tag">🏷️</button>
+              <button class="copy-btn" title="${chrome.i18n.getMessage("copyButtonTitle") || "Copy"}">📋</button>
+              <button class="edit-btn" title="${chrome.i18n.getMessage("editButtonTitle") || "Edit"}">✏️</button>
+              <button class="delete-btn" title="${chrome.i18n.getMessage("deleteButtonTitle") || "Delete"}">🗑️</button>
+              <a href="${item.url}" target="_blank" title="${chrome.i18n.getMessage("linkButtonTitle") || "Go to link"}">🔗</a>
+              <button class="add-tag-btn" title="${chrome.i18n.getMessage("addTagButtonTitle") || "Add Tag"}">🏷️</button>
             </div>
           </div>
           <div class="item-text" contenteditable="false">${item.text}</div>
@@ -223,7 +229,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         itemDiv.querySelector('.add-tag-btn').addEventListener('click', () => {
-          const newTag = prompt('Enter a new tag:');
+          const newTag = prompt(chrome.i18n.getMessage("enterTagPrompt") || "Enter a new tag:");
           if (newTag) {
             chrome.storage.local.get({ clipboard: [] }, (result) => {
               const newClipboard = result.clipboard.map(clip => {
@@ -231,7 +237,7 @@ document.addEventListener('DOMContentLoaded', () => {
                   if (clip.tags.length < 3) { // Limit to 3 tags
                     clip.tags.push(newTag);
                   } else {
-                    alert('You can only add up to 3 tags per item.');
+                    alert(chrome.i18n.getMessage("tagLimitAlert") || "You can only add up to 3 tags per item.");
                   }
                 }
                 return clip;
@@ -286,6 +292,9 @@ document.addEventListener('DOMContentLoaded', () => {
       // 更新标签过滤器和渲染结果
       renderTagFilters(allItems);
       renderClipboardItems(filteredItems);
+      
+      // 更新清除按钮的显示状态
+      updateClearButtonVisibility();
     });
   };
 

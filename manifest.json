@@ -2,7 +2,8 @@
   "manifest_version": 3,
   "name": "Super Clipboard",
   "version": "1.0",
-  "description": "A powerful clipboard extension for Chrome.",
+  "description": "__MSG_extensionDescription__",
+  "default_locale": "en",
   "permissions": [
     "contextMenus",
     "storage",

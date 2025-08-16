@@ -4,7 +4,7 @@
 chrome.runtime.onInstalled.addListener(() => {
   chrome.contextMenus.create({
     id: "copyToClipboard",
-    title: "复制到我的剪切板",
+    title: chrome.i18n.getMessage("contextMenuTitle"),
     contexts: ["selection"]
   });
 });

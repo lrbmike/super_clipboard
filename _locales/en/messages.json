@@ -1,0 +1,58 @@
+{
+  "extensionName": {
+    "message": "Super Clipboard",
+    "description": "Name of the extension"
+  },
+  "extensionDescription": {
+    "message": "A powerful clipboard extension for Chrome.",
+    "description": "Description of the extension"
+  },
+  "contextMenuTitle": {
+    "message": "Copy to Super Clipboard",
+    "description": "Title of the context menu item"
+  },
+  "tagsTitle": {
+    "message": "Tags",
+    "description": "Title for the tags section"
+  },
+  "searchPlaceholder": {
+    "message": "Search clipboard items...",
+    "description": "Placeholder text for the search box"
+  },
+  "tagSearchPlaceholder": {
+    "message": "Search tags...",
+    "description": "Placeholder text for the tag search box"
+  },
+  "allTagsButton": {
+    "message": "All",
+    "description": "Text for the 'All' tags button"
+  },
+  "copyButtonTitle": {
+    "message": "Copy",
+    "description": "Title for the copy button"
+  },
+  "editButtonTitle": {
+    "message": "Edit",
+    "description": "Title for the edit button"
+  },
+  "deleteButtonTitle": {
+    "message": "Delete",
+    "description": "Title for the delete button"
+  },
+  "linkButtonTitle": {
+    "message": "Go to link",
+    "description": "Title for the link button"
+  },
+  "addTagButtonTitle": {
+    "message": "Add Tag",
+    "description": "Title for the add tag button"
+  },
+  "enterTagPrompt": {
+    "message": "Enter a new tag:",
+    "description": "Prompt text for entering a new tag"
+  },
+  "tagLimitAlert": {
+    "message": "You can only add up to 3 tags per item.",
+    "description": "Alert message when tag limit is reached"
+  }
+}

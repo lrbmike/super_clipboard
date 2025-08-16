@@ -1,0 +1,58 @@
+{
+  "extensionName": {
+    "message": "Super Clipboard",
+    "description": "Name of the extension"
+  },
+  "extensionDescription": {
+    "message": "一个功能强大的 Chrome 剪贴板扩展。",
+    "description": "Description of the extension"
+  },
+  "contextMenuTitle": {
+    "message": "复制到 Super Clipboard",
+    "description": "Title of the context menu item"
+  },
+  "tagsTitle": {
+    "message": "标签",
+    "description": "Title for the tags section"
+  },
+  "searchPlaceholder": {
+    "message": "搜索剪贴板内容...",
+    "description": "Placeholder text for the search box"
+  },
+  "tagSearchPlaceholder": {
+    "message": "搜索标签...",
+    "description": "Placeholder text for the tag search box"
+  },
+  "allTagsButton": {
+    "message": "全部",
+    "description": "Text for the 'All' tags button"
+  },
+  "copyButtonTitle": {
+    "message": "复制",
+    "description": "Title for the copy button"
+  },
+  "editButtonTitle": {
+    "message": "编辑",
+    "description": "Title for the edit button"
+  },
+  "deleteButtonTitle": {
+    "message": "删除",
+    "description": "Title for the delete button"
+  },
+  "linkButtonTitle": {
+    "message": "跳转到链接",
+    "description": "Title for the link button"
+  },
+  "addTagButtonTitle": {
+    "message": "添加标签",
+    "description": "Title for the add tag button"
+  },
+  "enterTagPrompt": {
+    "message": "输入新标签:",
+    "description": "Prompt text for entering a new tag"
+  },
+  "tagLimitAlert": {
+    "message": "每个项目最多只能添加3个标签。",
+    "description": "Alert message when tag limit is reached"
+  }
+}
