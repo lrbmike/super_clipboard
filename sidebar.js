@@ -51,9 +51,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const allTags = Object.keys(tagCounts);
     const remainingTags = allTags.filter(tag => !topTags.includes(tag));
     const tagSearchTerm = tagSearchBox.value.toLowerCase();
-    const filteredRemainingTags = tagSearchTerm 
-      ? remainingTags.filter(tag => tag.toLowerCase().includes(tagSearchTerm))
-      : remainingTags;
+    
+    // 搜索应该针对所有标签，而不仅仅是隐藏的标签
+    const filteredAllTags = tagSearchTerm 
+      ? allTags.filter(tag => tag.toLowerCase().includes(tagSearchTerm))
+      : allTags;
+      
+    // 重新计算topTags和remainingTags基于过滤后的结果
+    const filteredTopTags = filteredAllTags.filter(tag => topTags.includes(tag));
+    const filteredRemainingTags = filteredAllTags.filter(tag => remainingTags.includes(tag));
 
     // 渲染顶部标签（使用最多的5个）
     topTagsContainer.innerHTML = '';
@@ -67,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     topTagsContainer.appendChild(allButton);
 
-    topTags.forEach(tag => {
+    filteredTopTags.forEach(tag => {
       const tagButton = document.createElement('button');
       tagButton.textContent = `${tag} (${tagCounts[tag]})`;
       tagButton.className = selectedTag === tag ? 'tag-button active' : 'tag-button';
@@ -243,14 +249,17 @@ document.addEventListener('DOMContentLoaded', () => {
     chrome.storage.local.get({ clipboard: [] }, (result) => {
       const allItems = result.clipboard;
       const searchTerm = searchBox.value.toLowerCase();
-      const tagSearchTerm = tagSearchBox.value.toLowerCase();
+      // 移除标签搜索对内容列表的过滤影响
+      // const tagSearchTerm = tagSearchBox.value.toLowerCase();
       
       // 过滤和搜索逻辑
       let filteredItems = allItems.filter(item => {
         const matchesSearch = item.text.toLowerCase().includes(searchTerm);
         const matchesTag = !selectedTag || item.tags.includes(selectedTag);
-        const matchesTagSearch = !tagSearchTerm || item.tags.some(tag => tag.toLowerCase().includes(tagSearchTerm));
-        return matchesSearch && matchesTag && matchesTagSearch;
+        // 移除标签搜索对内容列表的过滤影响
+        // const matchesTagSearch = !tagSearchTerm || item.tags.some(tag => tag.toLowerCase().includes(tagSearchTerm));
+        // return matchesSearch && matchesTag && matchesTagSearch;
+        return matchesSearch && matchesTag;
       });
       
       // 更新标签过滤器和渲染结果
@@ -272,7 +281,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // 输入时触发搜索
   searchBox.addEventListener('input', loadClipboardItems);
-  tagSearchBox.addEventListener('input', loadClipboardItems);
+  // 移除标签搜索的事件监听，避免联动内容列表
+  // tagSearchBox.addEventListener('input', loadClipboardItems);
+  // 添加标签搜索的独立处理
+  tagSearchBox.addEventListener('input', () => {
+    // 只更新标签显示，不影响内容列表
+    chrome.storage.local.get({ clipboard: [] }, (result) => {
+      renderTagFilters(result.clipboard);
+    });
+  });
   
   // 初始加载
   loadClipboardItems();
