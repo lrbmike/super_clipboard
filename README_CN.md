@@ -1,5 +1,7 @@
 # Super Clipboard
 
+[English](README.md) | [中文简体](README_CN.md)
+
 一个功能强大的 Chrome 剪贴板扩展，帮助您更好地管理和组织复制的内容。
 
 ## 功能特性

@@ -1,5 +1,7 @@
 # Super Clipboard
 
+[English](README.md) | [中文简体](README_CN.md)
+
 A powerful clipboard extension for Chrome that helps you better manage and organize copied content.
 
 ## Features
