@@ -289,19 +289,39 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
 
+  // 更新清除按钮的显示状态
+  const updateClearButtonVisibility = () => {
+    const searchClearBtn = document.getElementById('search-clear-btn');
+    const tagSearchClearBtn = document.getElementById('tag-search-clear-btn');
+    
+    if (searchClearBtn) {
+      searchClearBtn.style.display = searchBox.value ? 'flex' : 'none';
+    }
+    
+    if (tagSearchClearBtn) {
+      tagSearchClearBtn.style.display = tagSearchBox.value ? 'flex' : 'none';
+    }
+  };
+
   // 添加搜索框清除按钮事件监听
   document.getElementById('search-clear-btn')?.addEventListener('click', () => {
     searchBox.value = '';
     loadClipboardItems();
+    updateClearButtonVisibility();
   });
   
   document.getElementById('tag-search-clear-btn')?.addEventListener('click', () => {
     tagSearchBox.value = '';
     loadClipboardItems();
+    updateClearButtonVisibility();
   });
 
   // 输入时触发搜索
-  searchBox.addEventListener('input', loadClipboardItems);
+  searchBox.addEventListener('input', () => {
+    loadClipboardItems();
+    updateClearButtonVisibility();
+  });
+  
   // 移除标签搜索的事件监听，避免联动内容列表
   // tagSearchBox.addEventListener('input', loadClipboardItems);
   // 添加标签搜索的独立处理
@@ -310,6 +330,7 @@ document.addEventListener('DOMContentLoaded', () => {
     chrome.storage.local.get({ clipboard: [] }, (result) => {
       renderTagFilters(result.clipboard);
     });
+    updateClearButtonVisibility();
   });
   
   // 初始加载

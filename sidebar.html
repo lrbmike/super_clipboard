@@ -10,7 +10,10 @@
   <div id="fixed-header">
     <h1>Super Clipboard</h1>
     <div id="search-container">
-      <input type="text" id="search-box" placeholder="Search clipboard items...">
+      <div class="search-wrapper">
+        <input type="text" id="search-box" placeholder="Search clipboard items...">
+        <button id="search-clear-btn" class="clear-btn" title="Clear search">×</button>
+      </div>
     </div>
     <div id="tag-filter-container">
       <div class="tag-filter-header">
@@ -18,7 +21,10 @@
         <button id="toggle-tags-btn" class="toggle-btn">▼</button>
       </div>
       <div class="tag-search-container hidden" id="tag-search-wrapper">
-        <input type="text" id="tag-search-box" placeholder="Search tags...">
+        <div class="search-wrapper">
+          <input type="text" id="tag-search-box" placeholder="Search tags...">
+          <button id="tag-search-clear-btn" class="clear-btn" title="Clear search">×</button>
+        </div>
       </div>
       <div id="tags-container">
         <!-- 所有标签将在此处渲染 -->
