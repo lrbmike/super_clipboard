@@ -4,26 +4,24 @@ document.addEventListener('DOMContentLoaded', () => {
   const tagSearchWrapper = document.getElementById('tag-search-wrapper');
   const clipboardList = document.getElementById('clipboard-list');
   const toggleTagsBtn = document.getElementById('toggle-tags-btn');
-  const topTagsContainer = document.getElementById('top-tags-container');
-  const allTagsContainer = document.getElementById('all-tags-container');
+  const tagsContainer = document.getElementById('tags-container'); // 更新为新的标签容器
   let selectedTag = null;
   let currentPage = 1;
-  const itemsPerPage = 5;
+  const itemsPerPage = 10;
   let isTagsExpanded = false;
 
   // 切换标签显示/隐藏
   toggleTagsBtn.addEventListener('click', () => {
     isTagsExpanded = !isTagsExpanded;
     if (isTagsExpanded) {
-      allTagsContainer.classList.remove('hidden');
+      tagsContainer.classList.remove('hidden');
       tagSearchWrapper.classList.remove('hidden'); // 确保搜索框在展开时可见
       toggleTagsBtn.textContent = '▲';
     } else {
-      allTagsContainer.classList.add('hidden');
       tagSearchWrapper.classList.add('hidden'); // 隐藏搜索框
       toggleTagsBtn.textContent = '▼';
     }
-    loadClipboardItems();
+    updateTagVisibility(); // 更新标签可见性
   });
 
   // 统计标签使用次数
@@ -61,42 +59,65 @@ document.addEventListener('DOMContentLoaded', () => {
     const filteredTopTags = filteredAllTags.filter(tag => topTags.includes(tag));
     const filteredRemainingTags = filteredAllTags.filter(tag => remainingTags.includes(tag));
 
-    // 渲染顶部标签（使用最多的5个）
-    topTagsContainer.innerHTML = '';
+    // 渲染所有标签（使用最多的5个标记为data-top-tag属性）
+    tagsContainer.innerHTML = '';
+    
+    // 添加"All"按钮，初始状态为选中
     const allButton = document.createElement('button');
     allButton.textContent = 'All';
     allButton.className = selectedTag === null ? 'tag-button active' : 'tag-button';
     allButton.addEventListener('click', () => {
-      selectedTag = null;
-      currentPage = 1;
-      loadClipboardItems();
+        selectedTag = null;
+        currentPage = 1;
+        loadClipboardItems();
     });
-    topTagsContainer.appendChild(allButton);
+    tagsContainer.appendChild(allButton);
 
+    // 添加顶部标签
     filteredTopTags.forEach(tag => {
-      const tagButton = document.createElement('button');
-      tagButton.textContent = `${tag} (${tagCounts[tag]})`;
-      tagButton.className = selectedTag === tag ? 'tag-button active' : 'tag-button';
-      tagButton.addEventListener('click', () => {
-        selectedTag = tag;
-        currentPage = 1;
-        loadClipboardItems();
-      });
-      topTagsContainer.appendChild(tagButton);
+        const tagButton = document.createElement('button');
+        tagButton.textContent = `${tag} (${tagCounts[tag]})`;
+        // 仅在选中时添加active类
+        tagButton.className = selectedTag === tag ? 'tag-button active' : 'tag-button';
+        tagButton.dataset.topTag = 'true'; // 标记为顶部标签
+        tagButton.addEventListener('click', () => {
+            selectedTag = tag;
+            currentPage = 1;
+            loadClipboardItems();
+        });
+        tagsContainer.appendChild(tagButton);
     });
 
-    // 渲染剩余标签（在展开时显示）
-    allTagsContainer.innerHTML = '';
+    // 添加剩余标签（在展开时显示）
     filteredRemainingTags.forEach(tag => {
-      const tagButton = document.createElement('button');
-      tagButton.textContent = `${tag} (${tagCounts[tag]})`;
-      tagButton.className = selectedTag === tag ? 'tag-button active' : 'tag-button';
-      tagButton.addEventListener('click', () => {
-        selectedTag = tag;
-        currentPage = 1;
-        loadClipboardItems();
-      });
-      allTagsContainer.appendChild(tagButton);
+        const tagButton = document.createElement('button');
+        tagButton.textContent = `${tag} (${tagCounts[tag]})`;
+        // 仅在选中时添加active类
+        tagButton.className = selectedTag === tag ? 'tag-button active' : 'tag-button';
+        tagButton.dataset.topTag = 'false'; // 标记为非顶部标签
+        tagButton.addEventListener('click', () => {
+            selectedTag = tag;
+            currentPage = 1;
+            loadClipboardItems();
+        });
+        tagsContainer.appendChild(tagButton);
+    });
+    
+    // 根据展开状态决定是否显示非顶部标签
+    updateTagVisibility();
+  };
+
+  // 根据展开状态更新标签可见性
+  const updateTagVisibility = () => {
+    const allTagButtons = tagsContainer.querySelectorAll('button[data-top-tag]');
+    allTagButtons.forEach(button => {
+      const isTopTag = button.dataset.topTag === 'true';
+      // 如果是顶部标签，始终显示；如果不是顶部标签，仅在展开时显示
+      if (!isTopTag && !isTagsExpanded) {
+        button.style.display = 'none';
+      } else {
+        button.style.display = '';
+      }
     });
   };
 

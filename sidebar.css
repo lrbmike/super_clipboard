@@ -159,19 +159,29 @@ h3 {
   margin-bottom: 10px;
 }
 
-#all-tags-container {
+#tags-container {
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap; /* 允许换行 */
   gap: 8px;
-  max-height: 200px;
-  overflow-x: auto;
-  overflow-y: hidden;
   margin-bottom: 10px;
-  padding-bottom: 5px;
+  /* 移除滚动条相关样式 */
 }
 
-#all-tags-container.hidden {
-  display: none;
+/* 移除顶部标签的默认背景色 */
+#tags-container .tag-button[data-top-tag="true"] {
+  background-color: var(--button-bg-color); /* 使用普通按钮背景色 */
+  color: var(--button-text-color); /* 使用普通按钮文字颜色 */
+  box-shadow: none; /* 移除阴影 */
+}
+
+#tags-container .tag-button[data-top-tag="true"]:hover {
+  background-color: var(--button-hover-bg-color); /* 悬停时的背景色 */
+}
+
+#tags-container .tag-button[data-top-tag="true"].active {
+  background-color: var(--active-button-bg-color); /* 选中时的背景色 */
+  color: var(--active-button-text-color); /* 选中时的文字颜色 */
+  box-shadow: 0 2px 5px var(--active-button-shadow); /* 选中时的阴影 */
 }
 
 /* Adding tag search box style */
