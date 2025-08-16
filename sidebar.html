@@ -3,15 +3,30 @@
 <head>
   <title>Super Clipboard</title>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="sidebar.css">
 </head>
 <body>
   <div id="fixed-header">
     <h1>Super Clipboard</h1>
     <div id="search-container">
-      <input type="text" id="search-box" placeholder="Search...">
+      <input type="text" id="search-box" placeholder="Search clipboard items...">
     </div>
-    <div id="tag-filter-container"></div>
+    <div id="tag-filter-container">
+      <div class="tag-filter-header">
+        <span>Tags</span>
+        <button id="toggle-tags-btn" class="toggle-btn">▼</button>
+      </div>
+      <div class="tag-search-container hidden" id="tag-search-wrapper">
+        <input type="text" id="tag-search-box" placeholder="Search tags...">
+      </div>
+      <div id="top-tags-container">
+        <!-- Top 5 tags will be displayed here -->
+      </div>
+      <div id="all-tags-container" class="hidden">
+        <!-- All tags (except top 5) will be displayed here when expanded -->
+      </div>
+    </div>
   </div>
   <div id="clipboard-list"></div>
   <script src="sidebar.js"></script>

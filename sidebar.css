@@ -67,7 +67,9 @@
 }
 
 body {
-  width: 300px;
+  width: 100%;
+  min-width: 300px;
+  max-width: 600px;
   height: 100vh;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
@@ -121,12 +123,77 @@ h3 {
 
 #tag-filter-container {
   margin-bottom: 15px;
+  position: relative;
+}
+
+.tag-filter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.tag-filter-header span {
+  font-weight: bold;
+  color: var(--header-color);
+}
+
+.toggle-btn {
+  background: none;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-color);
+  font-size: 12px;
+}
+
+#top-tags-container {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  margin-bottom: 10px;
 }
 
-#tag-filter-container button {
+#all-tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  max-height: 200px;
+  overflow-y: auto;
+  margin-bottom: 10px;
+}
+
+#all-tags-container.hidden {
+  display: none;
+}
+
+/* Adding tag search box style */
+.tag-search-container {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.tag-search-container.hidden {
+  display: none;
+}
+
+.tag-search-container input {
+  width: 100%;
+  padding: 6px 10px;
+  border: 1px solid var(--input-border-color);
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 12px;
+  background-color: var(--item-bg-color);
+  color: var(--text-color);
+}
+
+#tag-filter-container button.tag-button {
   background-color: var(--button-bg-color);
   border: none;
   padding: 6px 12px;
@@ -137,11 +204,11 @@ h3 {
   transition: background-color 0.2s ease;
 }
 
-#tag-filter-container button:hover {
+#tag-filter-container button.tag-button:hover {
   background-color: var(--button-hover-bg-color);
 }
 
-#tag-filter-container button.active {
+#tag-filter-container button.tag-button.active {
   background-color: var(--active-button-bg-color);
   color: var(--active-button-text-color);
   box-shadow: 0 2px 5px var(--active-button-shadow);

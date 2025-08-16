@@ -1,35 +1,96 @@
 document.addEventListener('DOMContentLoaded', () => {
   const searchBox = document.getElementById('search-box');
+  const tagSearchBox = document.getElementById('tag-search-box');
+  const tagSearchWrapper = document.getElementById('tag-search-wrapper');
   const clipboardList = document.getElementById('clipboard-list');
-  const tagFilterContainer = document.getElementById('tag-filter-container');
+  const toggleTagsBtn = document.getElementById('toggle-tags-btn');
+  const topTagsContainer = document.getElementById('top-tags-container');
+  const allTagsContainer = document.getElementById('all-tags-container');
   let selectedTag = null;
   let currentPage = 1;
-  const itemsPerPage = 20;
+  const itemsPerPage = 5;
+  let isTagsExpanded = false;
+
+  // 切换标签显示/隐藏
+  toggleTagsBtn.addEventListener('click', () => {
+    isTagsExpanded = !isTagsExpanded;
+    if (isTagsExpanded) {
+      allTagsContainer.classList.remove('hidden');
+      tagSearchWrapper.classList.remove('hidden'); // 确保搜索框在展开时可见
+      toggleTagsBtn.textContent = '▲';
+    } else {
+      allTagsContainer.classList.add('hidden');
+      tagSearchWrapper.classList.add('hidden'); // 隐藏搜索框
+      toggleTagsBtn.textContent = '▼';
+    }
+    loadClipboardItems();
+  });
+
+  // 统计标签使用次数
+  const getTagCounts = (items) => {
+    const tagCounts = {};
+    items.forEach(item => {
+      item.tags.forEach(tag => {
+        tagCounts[tag] = (tagCounts[tag] || 0) + 1;
+      });
+    });
+    return tagCounts;
+  };
+
+  // 获取使用次数最多的前N个标签
+  const getTopTags = (tagCounts, limit = 5) => {
+    return Object.entries(tagCounts)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, limit)
+      .map(entry => entry[0]);
+  };
 
   const renderTagFilters = (items) => {
-    const allTags = [...new Set(items.flatMap(item => item.tags))];
-    tagFilterContainer.innerHTML = '';
+    const tagCounts = getTagCounts(items);
+    const topTags = getTopTags(tagCounts, 5);
+    const allTags = Object.keys(tagCounts);
+    const remainingTags = allTags.filter(tag => !topTags.includes(tag));
+    const tagSearchTerm = tagSearchBox.value.toLowerCase();
+    const filteredRemainingTags = tagSearchTerm 
+      ? remainingTags.filter(tag => tag.toLowerCase().includes(tagSearchTerm))
+      : remainingTags;
 
+    // 渲染顶部标签（使用最多的5个）
+    topTagsContainer.innerHTML = '';
     const allButton = document.createElement('button');
     allButton.textContent = 'All';
-    allButton.className = selectedTag === null ? 'active' : '';
+    allButton.className = selectedTag === null ? 'tag-button active' : 'tag-button';
     allButton.addEventListener('click', () => {
       selectedTag = null;
       currentPage = 1;
       loadClipboardItems();
     });
-    tagFilterContainer.appendChild(allButton);
+    topTagsContainer.appendChild(allButton);
 
-    allTags.forEach(tag => {
+    topTags.forEach(tag => {
       const tagButton = document.createElement('button');
-      tagButton.textContent = tag;
-      tagButton.className = selectedTag === tag ? 'active' : '';
+      tagButton.textContent = `${tag} (${tagCounts[tag]})`;
+      tagButton.className = selectedTag === tag ? 'tag-button active' : 'tag-button';
       tagButton.addEventListener('click', () => {
         selectedTag = tag;
         currentPage = 1;
         loadClipboardItems();
       });
-      tagFilterContainer.appendChild(tagButton);
+      topTagsContainer.appendChild(tagButton);
+    });
+
+    // 渲染剩余标签（在展开时显示）
+    allTagsContainer.innerHTML = '';
+    filteredRemainingTags.forEach(tag => {
+      const tagButton = document.createElement('button');
+      tagButton.textContent = `${tag} (${tagCounts[tag]})`;
+      tagButton.className = selectedTag === tag ? 'tag-button active' : 'tag-button';
+      tagButton.addEventListener('click', () => {
+        selectedTag = tag;
+        currentPage = 1;
+        loadClipboardItems();
+      });
+      allTagsContainer.appendChild(tagButton);
     });
   };
 
@@ -180,21 +241,43 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const loadClipboardItems = () => {
     chrome.storage.local.get({ clipboard: [] }, (result) => {
-      renderTagFilters(result.clipboard);
+      const allItems = result.clipboard;
       const searchTerm = searchBox.value.toLowerCase();
-      let filteredItems = result.clipboard.filter(item =>
-        item.text.toLowerCase().includes(searchTerm)
-      );
-      if (selectedTag) {
-        filteredItems = filteredItems.filter(item => item.tags.includes(selectedTag));
-      }
+      const tagSearchTerm = tagSearchBox.value.toLowerCase();
+      
+      // 过滤和搜索逻辑
+      let filteredItems = allItems.filter(item => {
+        const matchesSearch = item.text.toLowerCase().includes(searchTerm);
+        const matchesTag = !selectedTag || item.tags.includes(selectedTag);
+        const matchesTagSearch = !tagSearchTerm || item.tags.some(tag => tag.toLowerCase().includes(tagSearchTerm));
+        return matchesSearch && matchesTag && matchesTagSearch;
+      });
+      
+      // 更新标签过滤器和渲染结果
+      renderTagFilters(allItems);
       renderClipboardItems(filteredItems);
     });
   };
 
-  searchBox.addEventListener('input', loadClipboardItems);
-  loadClipboardItems();
+  // 添加搜索框清除按钮事件监听
+  document.getElementById('search-clear-btn')?.addEventListener('click', () => {
+    searchBox.value = '';
+    loadClipboardItems();
+  });
+  
+  document.getElementById('tag-search-clear-btn')?.addEventListener('click', () => {
+    tagSearchBox.value = '';
+    loadClipboardItems();
+  });
 
+  // 输入时触发搜索
+  searchBox.addEventListener('input', loadClipboardItems);
+  tagSearchBox.addEventListener('input', loadClipboardItems);
+  
+  // 初始加载
+  loadClipboardItems();
+  
+  // 监听来自内容脚本的数据更新
   chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.message === 'clipboardUpdated') {
       loadClipboardItems();
