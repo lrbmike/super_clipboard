@@ -37,6 +37,8 @@
 
 ## 界面介绍
 
+<img width="918" height="1284" alt="super_clipboard_01" src="https://github.com/user-attachments/assets/990845f5-c31b-4507-b727-52fc6bda8de4" />
+
 ### 主面板
 - 搜索框：用于搜索剪贴板内容
 - 标签区域：显示常用标签，可点击进行筛选
