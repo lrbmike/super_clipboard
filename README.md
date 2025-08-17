@@ -23,6 +23,17 @@ A powerful clipboard extension for Chrome that helps you better manage and organ
    - Click the extension icon in the browser toolbar to open the clipboard panel
    - Select text on a webpage, right-click, and choose "Copy to Super Clipboard" to add content to the clipboard
 
+## Privacy and Data Storage
+
+All clipboard content collected by this extension is stored locally within your browser's storage. No data is transmitted to any external servers or third parties. The extension respects your privacy by:
+
+- Storing all data locally in your browser's storage area
+- Not collecting or transmitting any personal information
+- Not tracking your browsing activities
+- Not sharing data with any external services
+
+Your clipboard history remains private and secure, accessible only to you on your local machine.
+
 ## Interface Overview
 
 ### Main Panel
