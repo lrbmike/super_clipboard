@@ -44,14 +44,6 @@ Each clipboard item provides the following action buttons:
 - 🔗 Link: Navigate to the source webpage
 - 🏷️ Tag: Add tags to the content
 
-## Technical Implementation
-
-- Built with Chrome Extension Manifest V3
-- Uses HTML/CSS/JavaScript stack
-- Leverages Chrome Storage API for data persistence
-- Utilizes Chrome Side Panel API for the sidebar interface
-- Supports automatic switching between dark and light modes
-
 ## Development and Contribution
 
 Feel free to submit Issues and Pull Requests to improve this project.

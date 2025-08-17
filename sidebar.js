@@ -57,13 +57,21 @@ document.addEventListener('DOMContentLoaded', () => {
     const tagSearchTerm = tagSearchBox.value.toLowerCase();
     
     // 搜索应该针对所有标签，而不仅仅是隐藏的标签
-    const filteredAllTags = tagSearchTerm 
+    let filteredAllTags = tagSearchTerm 
       ? allTags.filter(tag => tag.toLowerCase().includes(tagSearchTerm))
       : allTags;
       
-    // 重新计算topTags和remainingTags基于过滤后的结果
+    // 对过滤后的标签按使用次数排序
+    filteredAllTags = filteredAllTags.sort((a, b) => (tagCounts[b] || 0) - (tagCounts[a] || 0));
+      
+    // 重新计算topTags和remainingTags基于过滤和排序后的结果
     const filteredTopTags = filteredAllTags.filter(tag => topTags.includes(tag));
+    // 确保filteredTopTags也按照使用次数排序
+    filteredTopTags.sort((a, b) => (tagCounts[b] || 0) - (tagCounts[a] || 0));
+    
     const filteredRemainingTags = filteredAllTags.filter(tag => remainingTags.includes(tag));
+    // 确保filteredRemainingTags也按照使用次数排序
+    filteredRemainingTags.sort((a, b) => (tagCounts[b] || 0) - (tagCounts[a] || 0));
 
     // 渲染所有标签（使用最多的5个标记为data-top-tag属性）
     tagsContainer.innerHTML = '';

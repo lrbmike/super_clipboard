@@ -44,14 +44,6 @@
 - 🔗 链接：跳转到内容来源网页
 - 🏷️ 标签：为内容添加标签
 
-## 技术实现
-
-- 使用 Chrome Extension Manifest V3
-- 采用 HTML/CSS/JavaScript 技术栈
-- 利用 Chrome Storage API 存储剪贴板数据
-- 使用 Chrome Side Panel API 提供侧边栏界面
-- 支持深色模式和浅色模式自动切换
-
 ## 开发和贡献
 
 欢迎提交 Issue 和 Pull Request 来改进这个项目。
