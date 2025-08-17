@@ -6,6 +6,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const toggleTagsBtn = document.getElementById('toggle-tags-btn');
   const tagsContainer = document.getElementById('tags-container');
   const tagsTitle = document.getElementById('tags-title');
+  const exportBtn = document.getElementById('export-btn');
+  const importBtn = document.getElementById('import-btn');
+  const importFileInput = document.getElementById('import-file-input');
   let selectedTag = null;
   let currentPage = 1;
   const itemsPerPage = 5;
@@ -15,6 +18,107 @@ document.addEventListener('DOMContentLoaded', () => {
   tagsTitle.textContent = chrome.i18n.getMessage("tagsTitle") || "Tags";
   searchBox.placeholder = chrome.i18n.getMessage("searchPlaceholder") || "Search clipboard items...";
   tagSearchBox.placeholder = chrome.i18n.getMessage("tagSearchPlaceholder") || "Search tags...";
+  exportBtn.title = chrome.i18n.getMessage("exportButtonTitle") || "Export clipboard data";
+  importBtn.title = chrome.i18n.getMessage("importButtonTitle") || "Import clipboard data";
+
+  // 添加导出按钮事件监听器
+  exportBtn.addEventListener('click', () => {
+    exportClipboardData();
+  });
+
+  // 添加导入按钮事件监听器
+  importBtn.addEventListener('click', () => {
+    importFileInput.click(); // 触发文件选择对话框
+  });
+
+  // 添加文件选择事件监听器
+  importFileInput.addEventListener('change', (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      importClipboardData(file);
+    }
+    // 重置文件输入元素
+    event.target.value = '';
+  });
+
+  // 导出剪贴板数据功能
+  const exportClipboardData = () => {
+    chrome.storage.local.get({ clipboard: [] }, (result) => {
+      const clipboardData = result.clipboard;
+      
+      // 创建要导出的数据对象
+      const exportData = {
+        version: "1.0",
+        exportDate: new Date().toISOString(),
+        itemCount: clipboardData.length,
+        items: clipboardData
+      };
+      
+      // 将数据转换为JSON格式
+      const dataStr = JSON.stringify(exportData, null, 2);
+      
+      // 创建一个Blob对象
+      const blob = new Blob([dataStr], { type: 'application/json' });
+      
+      // 创建一个下载链接
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `super-clipboard-export-${new Date().toISOString().slice(0, 10)}.json`;
+      
+      // 触发下载
+      document.body.appendChild(link);
+      link.click();
+      
+      // 清理
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+    });
+  };
+
+  // 导入剪贴板数据功能
+  const importClipboardData = (file) => {
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        const importData = JSON.parse(event.target.result);
+        
+        // 验证数据格式
+        if (!importData.version || !importData.items || !Array.isArray(importData.items)) {
+          throw new Error(chrome.i18n.getMessage("invalidImportFileFormat") || "Invalid file format");
+        }
+        
+        // 确认是否要导入数据
+        const confirmMsg = chrome.i18n.getMessage("importConfirmMessage") || 
+                          `Import ${importData.items.length} clipboard items? This will replace your current clipboard data.`;
+        if (confirm(confirmMsg)) {
+          // 保存导入的数据
+          chrome.storage.local.set({ clipboard: importData.items }, () => {
+            // 显示导入成功的消息
+            const successMsg = chrome.i18n.getMessage("importSuccessMessage") || 
+                              `Successfully imported ${importData.items.length} clipboard items.`;
+            alert(successMsg);
+            
+            // 重新加载界面
+            loadClipboardItems();
+          });
+        }
+      } catch (error) {
+        console.error('Error importing data:', error);
+        const errorMsg = chrome.i18n.getMessage("importFailedMessage") || 
+                        "Failed to import clipboard data. Please check the file format.";
+        alert(errorMsg);
+      }
+    };
+    
+    reader.onerror = () => {
+      const errorMsg = chrome.i18n.getMessage("importFailedMessage") || 
+                      "Failed to import clipboard data. Please check the file format.";
+      alert(errorMsg);
+    };
+    
+    reader.readAsText(file);
+  };
 
   // 切换标签显示/隐藏
   toggleTagsBtn.addEventListener('click', () => {

@@ -8,7 +8,13 @@
 </head>
 <body>
   <div id="fixed-header">
-    <h1 id="extension-title">Super Clipboard</h1>
+    <div class="header-row">
+      <h1 id="extension-title">Super Clipboard</h1>
+      <div class="button-group">
+        <button id="import-btn" class="import-export-btn" title="__MSG_importButtonTitle__">📥</button>
+        <button id="export-btn" class="import-export-btn" title="__MSG_exportButtonTitle__">📤</button>
+      </div>
+    </div>
     <div id="search-container">
       <div class="search-wrapper">
         <input type="text" id="search-box" placeholder="Search clipboard items...">
@@ -32,6 +38,8 @@
     </div>
   </div>
   <div id="clipboard-list"></div>
+  <!-- 隐藏的文件输入元素用于导入功能 -->
+  <input type="file" id="import-file-input" accept=".json" style="display: none;">
   <script src="sidebar.js"></script>
 </body>
 </html>

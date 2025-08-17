@@ -84,6 +84,18 @@ body {
   box-sizing: border-box;
 }
 
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.button-group {
+  display: flex;
+  gap: 5px;
+}
+
 #clipboard-list {
   flex-grow: 1;
   overflow-y: auto;
@@ -93,8 +105,27 @@ body {
 h1 {
   font-size: 20px;
   color: var(--header-color);
-  margin-bottom: 15px;
+  margin: 0;
   text-align: center;
+}
+
+.import-export-btn {
+  background: none;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-color);
+  font-size: 16px;
+  transition: background-color 0.2s ease;
+}
+
+.import-export-btn:hover {
+  background-color: var(--button-hover-bg-color);
 }
 
 h3 {

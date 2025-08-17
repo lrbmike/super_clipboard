@@ -11,6 +11,7 @@ A powerful clipboard extension for Chrome that helps you better manage and organ
 - **Tag Management**: Add tags to clipboard items for easy categorization and searching
 - **Search Functionality**: Search through clipboard content and tags
 - **Content Editing**: Edit clipboard content directly within the extension
+- **Data Import/Export**: Import and export clipboard data for backup and transfer
 - **Responsive Design**: Adapts to different screen sizes and window dimensions
 
 ## Installation and Usage
@@ -40,6 +41,7 @@ Your clipboard history remains private and secure, accessible only to you on you
 - Search box: Search through clipboard content
 - Tag area: Shows frequently used tags, click to filter
 - Content list: Displays clipboard items grouped by date
+- Import/Export buttons: Buttons in the header to import or export clipboard data
 
 ### Tag Features
 - By default, displays the top 5 most frequently used tags
@@ -54,6 +56,13 @@ Each clipboard item provides the following action buttons:
 - 🗑️ Delete: Remove this item
 - 🔗 Link: Navigate to the source webpage
 - 🏷️ Tag: Add tags to the content
+
+### Import/Export Functionality
+The extension provides data import and export capabilities:
+- **Export**: Click the 📤 button in the header to export all clipboard data as a JSON file
+- **Import**: Click the 📥 button in the header to import previously exported clipboard data
+- Exported files contain all clipboard items with timestamps, source URLs, and tags
+- Imported data will replace your current clipboard data after confirmation
 
 ## Development and Contribution
 

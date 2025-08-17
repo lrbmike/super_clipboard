@@ -35,6 +35,38 @@
     "message": "已复制!",
     "description": "Title for the copy button when text is copied"
   },
+  "copyFailedButtonTitle": {
+    "message": "复制失败!",
+    "description": "Title for the copy button when text copy fails"
+  },
+  "copyFailedAlert": {
+    "message": "无法复制文本到剪贴板。这可能是由于网站限制导致的。",
+    "description": "Alert message when text copy fails"
+  },
+  "exportButtonTitle": {
+    "message": "导出剪贴板数据",
+    "description": "Title for the export button"
+  },
+  "importButtonTitle": {
+    "message": "导入剪贴板数据",
+    "description": "Title for the import button"
+  },
+  "importConfirmMessage": {
+    "message": "导入剪贴板项目？这将替换您当前的剪贴板数据。",
+    "description": "Confirmation message for importing clipboard data"
+  },
+  "importSuccessMessage": {
+    "message": "成功导入剪贴板项目。",
+    "description": "Success message after importing clipboard data"
+  },
+  "importFailedMessage": {
+    "message": "导入剪贴板数据失败。请检查文件格式。",
+    "description": "Error message when importing clipboard data fails"
+  },
+  "invalidImportFileFormat": {
+    "message": "无效的文件格式",
+    "description": "Error message for invalid import file format"
+  },
   "editButtonTitle": {
     "message": "编辑",
     "description": "Title for the edit button"
