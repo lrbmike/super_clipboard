@@ -37,6 +37,8 @@ Your clipboard history remains private and secure, accessible only to you on you
 
 ## Interface Overview
 
+<img width="918" height="1284" alt="super_clipboard_01" src="https://github.com/user-attachments/assets/180cfd44-d390-4ca5-bf96-e00730162544" />
+
 ### Main Panel
 - Search box: Search through clipboard content
 - Tag area: Shows frequently used tags, click to filter
