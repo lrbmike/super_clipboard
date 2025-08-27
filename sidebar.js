@@ -27,6 +27,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const saveFormDataBtn = document.getElementById('save-form-data-btn');
   const formDataContainer = document.getElementById('form-data-container');
   
+  // Saved Forms 搜索元素
+  const savedFormsSearchBox = document.getElementById('saved-forms-search');
+  const savedFormsSearchClearBtn = document.getElementById('saved-forms-search-clear-btn');
+  
   // 模态框元素
   const formMappingModal = document.getElementById('form-mapping-modal');
   const settingsModal = document.getElementById('settings-modal');
@@ -43,9 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // 保存的数据列表容器
   const savedFormsList = document.getElementById('saved-forms-list');
-  const formMappingsList = document.getElementById('form-mappings-list');
   const savedFormsSettingsList = document.getElementById('saved-forms-settings-list');
-  const formMappingsSettingsList = document.getElementById('form-mappings-settings-list');
   
   // --- 状态变量 ---
   let selectedTag = null;
@@ -55,6 +57,11 @@ document.addEventListener('DOMContentLoaded', () => {
   let currentTab = null;
   let mappingFieldData = null; // 存储正在被映射的字段数据
   let isMappingMode = false;
+  
+  // Saved Forms 分页和搜索状态变量
+  let savedFormsCurrentPage = 1;
+  const savedFormsItemsPerPage = 10;
+  let savedFormsSearchTerm = '';
 
   // --- 初始化 ---
 
@@ -74,6 +81,35 @@ document.addEventListener('DOMContentLoaded', () => {
   formPanelBtn.title = chrome.i18n.getMessage("formPanelButtonTitle") || "Form Panel";
   backToMainBtn.title = chrome.i18n.getMessage("backToMainButtonTitle") || "Back to Main";
   formMapBtn.title = chrome.i18n.getMessage("mapFormButtonTitle") || "Map Form";
+  // 设置表单面板国际化文本
+  if (savedFormsSearchBox) {
+    savedFormsSearchBox.placeholder = chrome.i18n.getMessage("savedFormsSearchPlaceholder") || "Search saved forms...";
+  }
+  if (savedFormsSearchClearBtn) {
+    savedFormsSearchClearBtn.title = chrome.i18n.getMessage("clearSearchTitle") || "Clear search";
+  }
+  
+  // 设置表单面板标签页按钮文本
+  const extractFormTabButton = document.querySelector('.form-tabs .tab-button[data-tab="extract-form"]');
+  const savedFormsTabButton = document.querySelector('.form-tabs .tab-button[data-tab="saved-forms"]');
+  const formManagementTitle = document.querySelector('#form-panel-header h1');
+  const savedFormsTabTitle = document.querySelector('#saved-forms-tab h3');
+  
+  if (extractFormTabButton) {
+    extractFormTabButton.textContent = chrome.i18n.getMessage("extractFormButtonTitle") || "Extract Form";
+  }
+  
+  if (savedFormsTabButton) {
+    savedFormsTabButton.textContent = chrome.i18n.getMessage("savedFormsTabTitle") || "Saved Forms";
+  }
+  
+  if (formManagementTitle) {
+    formManagementTitle.textContent = chrome.i18n.getMessage("formManagementTitle") || "Form Management";
+  }
+  
+  if (savedFormsTabTitle) {
+    savedFormsTabTitle.textContent = chrome.i18n.getMessage("savedFormsTabTitle") || "Saved Forms";
+  }
 
   // --- 事件监听器 ---
 
@@ -93,6 +129,26 @@ document.addEventListener('DOMContentLoaded', () => {
     if (file) importClipboardData(file);
     event.target.value = '';
   });
+  
+  // Saved Forms 搜索功能
+  if (savedFormsSearchBox) {
+      savedFormsSearchBox.addEventListener('input', () => {
+          savedFormsSearchTerm = savedFormsSearchBox.value;
+          savedFormsCurrentPage = 1; // 重置到第一页
+          loadSavedForms();
+          updateSavedFormsClearButtonVisibility();
+      });
+  }
+  
+  if (savedFormsSearchClearBtn) {
+      savedFormsSearchClearBtn.addEventListener('click', () => {
+          savedFormsSearchBox.value = '';
+          savedFormsSearchTerm = '';
+          savedFormsCurrentPage = 1; // 重置到第一页
+          loadSavedForms();
+          updateSavedFormsClearButtonVisibility();
+      });
+  }
 
   saveFormDataBtn.addEventListener('click', () => {
     const formsToSave = getFormsToSaveFromUI();
@@ -146,9 +202,14 @@ document.addEventListener('DOMContentLoaded', () => {
       if (tabId === 'extract-form') {
         showInitialExtractView();
       } else if (tabId === 'saved-forms') {
+        // 重置搜索和分页状态
+        savedFormsCurrentPage = 1;
+        savedFormsSearchTerm = '';
+        if (savedFormsSearchBox) {
+            savedFormsSearchBox.value = '';
+            updateSavedFormsClearButtonVisibility();
+        }
         loadSavedForms();
-      } else if (tabId === 'form-mappings') {
-        loadFormMappings();
       }
     });
   });
@@ -162,6 +223,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   // --- 核心功能函数 ---
+  function updateSavedFormsClearButtonVisibility() {
+      if (savedFormsSearchClearBtn) {
+          savedFormsSearchClearBtn.style.display = savedFormsSearchBox.value ? 'block' : 'none';
+      }
+  }
+  
 
   // 面板和标签页管理
   function switchToPanel(panelToShow) {
@@ -215,14 +282,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     extractFormWrapper.innerHTML = `
       <div style="text-align: center; padding: 40px 20px;">
-        <p style="margin-bottom: 20px;">Click the button below to extract forms from the current page.</p>
-        <button id="trigger-extract-btn" class="btn-primary" style="padding: 10px 20px; font-size: 16px;">Extract Page Forms</button>
+        <p style="margin-bottom: 20px;">${chrome.i18n.getMessage("extractFormInitialText") || "Click the button below to extract forms from the current page."}</p>
+        <button id="trigger-extract-btn" class="btn-primary" style="padding: 10px 20px; font-size: 16px;">${chrome.i18n.getMessage("extractPageFormsButton") || "Extract Page Forms"}</button>
       </div>
     `;
 
     // Add event listener to the new button
     document.getElementById('trigger-extract-btn').addEventListener('click', () => {
-      extractFormWrapper.innerHTML = '<p style="text-align: center;">Extracting...</p>'; // Show loading state
+      extractFormWrapper.innerHTML = `<p style="text-align: center;">${chrome.i18n.getMessage("extractingText") || "Extracting..."}</p>`; // Show loading state
       
       chrome.runtime.sendMessage({ action: 'extractFormData' }, (response) => {
         extractFormWrapper.innerHTML = ''; // Clear the initial view/loading state
@@ -231,10 +298,11 @@ document.addEventListener('DOMContentLoaded', () => {
             renderFormData(response.formData);
             saveFormDataBtn.style.display = 'block'; // Show the save button
           } else {
-            formDataContainer.innerHTML = '<p style="text-align: center;">No forms were found on this page.</p>';
+            formDataContainer.innerHTML = `<p style="text-align: center;">${chrome.i18n.getMessage("noFormsFoundText") || "No forms were found on this page."}</p>`;
           }
         } else {
-          formDataContainer.innerHTML = `<p style="text-align: center;">Error: ${response?.error || 'Could not extract form data.'}</p>`;
+          const errorMessage = response?.error || 'Could not extract form data.';
+          formDataContainer.innerHTML = `<p style="text-align: center;">${chrome.i18n.getMessage("extractFormErrorText", [errorMessage]) || "Error: " + errorMessage}</p>`;
         }
       });
     });
@@ -268,87 +336,106 @@ function getFormsToSaveFromUI() {
     return formsToSave;
   }
   
-  function updateMappingButtonUI() {
-    formMapBtn.textContent = isMappingMode ? "⏹️" : "🗺️";
-    formMapBtn.title = isMappingMode ? "Stop Form Mapping" : "Map Form";
-  }
-  
-  function showMappingDialog(fieldData) {
-    mappingFieldData = fieldData;
-    document.getElementById('field-name').value = fieldData.elementLabel;
-    document.getElementById('mapping-name').value = '';
-    document.getElementById('mapping-column').value = '';
-    formMappingModal.classList.remove('hidden');
-    document.getElementById('mapping-name').focus();
-  }
-
-  function saveFormMapping() {
-    if (!mappingFieldData) return alert("No field data to save.");
-    const mappingName = document.getElementById('mapping-name').value.trim();
-    const mappingColumn = document.getElementById('mapping-column').value.trim();
-    if (!mappingName || !mappingColumn) return alert("Please provide both a mapping name and a column value.");
-
-    const mappingData = {
-      name: mappingName,
-      urlPattern: new URL(currentTab.url).hostname,
-      field: mappingFieldData.elementLabel,
-      selectors: mappingFieldData.selectors,
-      columnValue: mappingColumn
-    };
-    
-    chrome.runtime.sendMessage({ action: 'saveFormMapping', mappingData }, (response) => {
-        if(response && response.success) {
-            alert('Mapping saved successfully!');
-            formMappingModal.classList.add('hidden');
-            mappingFieldData = null;
-        } else {
-            alert(`Failed to save mapping: ${response?.error || 'Unknown error'}`);
-        }
-    });
-  }
 
   // 加载/渲染已保存的数据
-function loadSavedForms() {
+function loadSavedForms(container = savedFormsList) {
   chrome.runtime.sendMessage({ action: 'getSavedForms' }, (forms) => {
       if (forms) {
           const sortedForms = forms.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-          renderSavedForms(sortedForms, savedFormsList);
+          renderSavedForms(sortedForms, container);
       }
   });
 }
-  
-  function renderSavedForms(forms, container) {
-      container.innerHTML = '';
-      if (!forms || forms.length === 0) {
-          container.innerHTML = `<p>No saved forms found.</p>`;
-          return;
-      }
-      forms.forEach((form, index) => {
-          const item = document.createElement('div');
-          item.className = 'saved-form-item';
-          item.innerHTML = `
-              <div class="saved-form-header"><span class="saved-form-title">${form.formName.replace(/</g,"&lt;")}</span></div>
-              <div class="saved-form-meta">Saved: ${new Date(form.timestamp).toLocaleString()}</div>
-              <div class="saved-form-fields">${form.fields.map(f => `<div class="saved-form-field"><span class="field-label">${f.label.replace(/</g,"&lt;")}:</span> <span class="field-value">${(f.value || '').replace(/</g,"&lt;")}</span></div>`).join('')}</div>
-              <div class="form-actions-inline">
-                  <button class="btn-small btn-secondary edit-form-btn" data-index="${index}">Edit</button>
-                  <button class="btn-small btn-primary autofill-form-btn" data-index="${index}">Auto-fill</button>
-                  <button class="btn-small btn-secondary delete-form-btn" data-index="${index}">Delete</button>
-              </div>`;
-          container.appendChild(item);
-      });
 
-      container.querySelectorAll('.edit-form-btn').forEach(btn => btn.addEventListener('click', e => editSavedForm(parseInt(e.target.dataset.index), forms, container)));
-      container.querySelectorAll('.autofill-form-btn').forEach(btn => btn.addEventListener('click', e => autofillFromSavedForm(forms[parseInt(e.target.dataset.index, 10)])));
-      container.querySelectorAll('.delete-form-btn').forEach(btn => {
-          btn.addEventListener('click', e => {
-              if (confirm("Are you sure you want to delete this saved form?")) {
-                  chrome.runtime.sendMessage({ action: 'deleteSavedForm', index: parseInt(e.target.dataset.index, 10) }, () => loadSavedForms(container));
-              }
-          });
-      });
+function renderSavedForms(forms, container) {
+    // 应用搜索过滤
+    let filteredForms = forms;
+    if (savedFormsSearchTerm) {
+        filteredForms = forms.filter(form => 
+            form.formName.toLowerCase().includes(savedFormsSearchTerm.toLowerCase()) ||
+            form.fields.some(field => 
+                field.label.toLowerCase().includes(savedFormsSearchTerm.toLowerCase()) ||
+                (field.value && field.value.toLowerCase().includes(savedFormsSearchTerm.toLowerCase()))
+            )
+        );
+    }
+    
+    container.innerHTML = '';
+    
+    // 计算分页
+    const totalItems = filteredForms.length;
+    const totalPages = Math.ceil(totalItems / savedFormsItemsPerPage);
+    
+    // 确保当前页是有效的
+    if (savedFormsCurrentPage > totalPages && totalPages > 0) {
+        savedFormsCurrentPage = totalPages;
+    }
+    
+    if (totalItems === 0) {
+        container.innerHTML = `<p>${chrome.i18n.getMessage("noSavedFormsFoundText") || "No saved forms found."}</p>`;
+        return;
+    }
+    
+    // 获取当前页数据
+    const startIndex = (savedFormsCurrentPage - 1) * savedFormsItemsPerPage;
+    const paginatedForms = filteredForms.slice(startIndex, Math.min(startIndex + savedFormsItemsPerPage, filteredForms.length));
+    
+    paginatedForms.forEach((form) => {
+        const actualIndex = forms.indexOf(form); // 使用原始索引
+        const item = document.createElement('div');
+        item.className = 'saved-form-item';
+        item.innerHTML = `
+            <div class="saved-form-header"><span class="saved-form-title">${form.formName.replace(/</g,"&lt;")}</span></div>
+            <div class="saved-form-meta">Saved: ${new Date(form.timestamp).toLocaleString()}</div>
+            <div class="saved-form-fields">${form.fields.map(f => `<div class="saved-form-field"><span class="field-label">${f.label.replace(/</g,"&lt;")}:</span> <span class="field-value">${(f.value || '').replace(/</g,"&lt;")}</span></div>`).join('')}</div>
+            <div class="form-actions-inline">
+                <button class="btn-small btn-secondary edit-form-btn" data-index="${actualIndex}">Edit</button>
+                <button class="btn-small btn-primary autofill-form-btn" data-index="${actualIndex}">Auto-fill</button>
+                <button class="btn-small btn-secondary delete-form-btn" data-index="${actualIndex}">Delete</button>
+            </div>`;
+        container.appendChild(item);
+    });
+
+    // 添加分页控件
+    if (totalPages > 1) {
+        const paginationContainer = document.createElement('div');
+        paginationContainer.className = 'form-pagination';
+        
+        for (let i = 1; i <= totalPages; i++) {
+            const pageButton = document.createElement('button');
+            pageButton.textContent = i;
+            if (i === savedFormsCurrentPage) {
+                pageButton.classList.add('active');
+            }
+            pageButton.addEventListener('click', () => {
+                savedFormsCurrentPage = i;
+                renderSavedForms(forms, container);
+            });
+            paginationContainer.appendChild(pageButton);
+        }
+        
+        container.appendChild(paginationContainer);
+    }
+
+    container.querySelectorAll('.edit-form-btn').forEach(btn => btn.addEventListener('click', e => editSavedForm(parseInt(e.target.dataset.index), forms, container)));
+    container.querySelectorAll('.autofill-form-btn').forEach(btn => btn.addEventListener('click', e => autofillFromSavedForm(forms[parseInt(e.target.dataset.index, 10)])));
+    container.querySelectorAll('.delete-form-btn').forEach(btn => {
+        btn.addEventListener('click', e => {
+            if (confirm("Are you sure you want to delete this saved form?")) {
+                chrome.runtime.sendMessage({ action: 'deleteSavedForm', index: parseInt(e.target.dataset.index, 10) }, () => {
+                    // 重置到第一页并重新加载
+                    savedFormsCurrentPage = 1;
+                    loadSavedForms();
+                });
+            }
+        });
+    });
+    
+    // 更新清除按钮可见性
+    updateSavedFormsClearButtonVisibility();
   }
-function editSavedForm(index, forms, container) {
+
+  function editSavedForm(index, forms, container) {
       const form = forms[index];
       const itemElement = container.querySelector(`.edit-form-btn[data-index="${index}"]`).closest('.saved-form-item');
 
@@ -396,7 +483,39 @@ function editSavedForm(index, forms, container) {
       chrome.runtime.sendMessage({ action: 'autoFillForm', mappingData });
   }
 
-  function loadFormMappings(container) { /* Implement similarly to loadSavedForms */ }
+  function showMappingDialog(fieldData) {
+    mappingFieldData = fieldData;
+    document.getElementById('field-name').value = fieldData.elementLabel;
+    document.getElementById('mapping-name').value = '';
+    document.getElementById('mapping-column').value = '';
+    formMappingModal.classList.remove('hidden');
+    document.getElementById('mapping-name').focus();
+  }
+
+  function saveFormMapping() {
+    if (!mappingFieldData) return alert("No field data to save.");
+    const mappingName = document.getElementById('mapping-name').value.trim();
+    const mappingColumn = document.getElementById('mapping-column').value.trim();
+    if (!mappingName || !mappingColumn) return alert("Please provide both a mapping name and a column value.");
+
+    const mappingData = {
+      name: mappingName,
+      urlPattern: new URL(currentTab.url).hostname,
+      field: mappingFieldData.elementLabel,
+      selectors: mappingFieldData.selectors,
+      columnValue: mappingColumn
+    };
+    
+    chrome.runtime.sendMessage({ action: 'saveFormMapping', mappingData }, (response) => {
+        if(response && response.success) {
+            alert('Mapping saved successfully!');
+            formMappingModal.classList.add('hidden');
+            mappingFieldData = null;
+        } else {
+            alert(`Failed to save mapping: ${response?.error || 'Unknown error'}`);
+        }
+    });
+  }
 
   // 导入/导出
   function exportClipboardData() {
@@ -604,6 +723,12 @@ function editSavedForm(index, forms, container) {
   function updateClearButtonVisibility() {
     document.getElementById('search-clear-btn').style.display = searchBox.value ? 'block' : 'none';
     document.getElementById('tag-search-clear-btn').style.display = tagSearchBox.value ? 'block' : 'none';
+  }
+  
+  function updateSavedFormsClearButtonVisibility() {
+      if (savedFormsSearchClearBtn) {
+          savedFormsSearchClearBtn.style.display = savedFormsSearchBox.value ? 'block' : 'none';
+      }
   }
 
   // --- Chrome API 监听器 ---

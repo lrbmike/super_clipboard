@@ -170,5 +170,67 @@
   "mapFormButtonTitle": {
     "message": "映射表单",
     "description": "Title for the map form button"
+  },
+  "formFieldNameLabel": {
+    "message": "字段名称",
+    "description": "Label for the field name input"
+  },
+  "formMappingNameLabel": {
+    "message": "映射名称",
+    "description": "Label for the mapping name input"
+  },
+  "formMappingNamePlaceholder": {
+    "message": "输入映射名称",
+    "description": "Placeholder for the mapping name input"
+  },
+  "formMappingColumnLabel": {
+    "message": "列值",
+    "description": "Label for the column value input"
+  },
+  "formMappingColumnPlaceholder": {
+    "message": "输入列值",
+    "description": "Placeholder for the column value input"
+  },
+  "formManagementTitle": {
+    "message": "表单管理",
+    "description": "Title for the form management panel"
+  },
+  "savedFormsSearchPlaceholder": {
+    "message": "搜索保存的表单...",
+    "description": "Placeholder for the saved forms search box"
+  },
+  "clearSearchTitle": {
+    "message": "清除搜索",
+    "description": "Title for the clear search button"
+  },
+  "extractFormInitialText": {
+    "message": "点击下面的按钮从当前页面提取表单。",
+    "description": "Text shown in the initial extract form view"
+  },
+  "extractPageFormsButton": {
+    "message": "提取页面表单",
+    "description": "Text for the extract page forms button"
+  },
+  "extractingText": {
+    "message": "提取中...",
+    "description": "Text shown while extracting forms"
+  },
+  "noFormsFoundText": {
+    "message": "在此页面上未找到表单。",
+    "description": "Text shown when no forms are found"
+  },
+  "extractFormErrorText": {
+    "message": "错误：$error$",
+    "description": "Text shown when there is an error extracting forms",
+    "placeholders": {
+      "error": {
+        "content": "$1",
+        "example": "无法提取表单数据。"
+      }
+    }
+  },
+  "noSavedFormsFoundText": {
+    "message": "未找到保存的表单。",
+    "description": "Text shown when no saved forms are found"
   }
 }

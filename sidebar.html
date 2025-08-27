@@ -57,9 +57,8 @@
     </div>
     <div id="form-panel-content">
       <div class="form-tabs">
-        <button class="tab-button active" data-tab="extract-form">Extract Form</button>
-        <button class="tab-button" data-tab="saved-forms">Saved Forms</button>
-        <button class="tab-button" data-tab="form-mappings">Form Mappings</button>
+        <button class="tab-button active" data-tab="extract-form">__MSG_extractFormButtonTitle__</button>
+        <button class="tab-button" data-tab="saved-forms">__MSG_savedFormsTabTitle__</button>
       </div>
       
     <div id="extract-form-tab" class="form-tab-content active">
@@ -71,21 +70,20 @@
       </div>
 
       <div class="form-actions">
-        <button id="save-form-data-btn" style="display: none;">Save Form Data</button>
+        <button id="save-form-data-btn" style="display: none;">__MSG_saveButtonTitle__</button>
       </div>
     </div>
       
       <div id="saved-forms-tab" class="form-tab-content">
-        <h3>Saved Forms</h3>
+        <h3>__MSG_savedFormsTabTitle__</h3>
+        <div class="form-search-container">
+          <div class="search-wrapper">
+            <input type="text" id="saved-forms-search" placeholder="__MSG_searchPlaceholder__">
+            <button id="saved-forms-search-clear-btn" class="clear-btn" title="__MSG_cancelButtonTitle__">×</button>
+          </div>
+        </div>
         <div id="saved-forms-list">
           <!-- 保存的表单将在这里显示 -->
-        </div>
-      </div>
-      
-      <div id="form-mappings-tab" class="form-tab-content">
-        <h3>Form Mappings</h3>
-        <div id="form-mappings-list">
-          <!-- 表单映射将在这里显示 -->
         </div>
       </div>
     </div>
@@ -95,25 +93,25 @@
   <div id="form-mapping-modal" class="modal hidden">
     <div class="modal-content">
       <div class="modal-header">
-        <h2>Map Form Field</h2>
+        <h2>__MSG_mapFormButtonTitle__</h2>
         <span class="close-modal">&times;</span>
       </div>
       <div class="modal-body">
         <div id="mapping-form-container">
           <div class="form-group">
-            <label for="field-name">Field Name:</label>
+            <label for="field-name">__MSG_formFieldNameLabel__:</label>
             <input type="text" id="field-name" readonly>
           </div>
           <div class="form-group">
-            <label for="mapping-name">Mapping Name:</label>
-            <input type="text" id="mapping-name" placeholder="Enter mapping name">
+            <label for="mapping-name">__MSG_formMappingNameLabel__:</label>
+            <input type="text" id="mapping-name" placeholder="__MSG_formMappingNamePlaceholder__">
           </div>
           <div class="form-group">
-            <label for="mapping-column">Column Value:</label>
-            <input type="text" id="mapping-column" placeholder="Enter column value">
+            <label for="mapping-column">__MSG_formMappingColumnLabel__:</label>
+            <input type="text" id="mapping-column" placeholder="__MSG_formMappingColumnPlaceholder__">
           </div>
           <div class="form-actions">
-            <button id="save-mapping-btn">Save Mapping</button>
+            <button id="save-mapping-btn">__MSG_saveButtonTitle__</button>
           </div>
         </div>
       </div>

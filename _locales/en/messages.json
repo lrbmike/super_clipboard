@@ -170,5 +170,67 @@
   "mapFormButtonTitle": {
     "message": "Map Form",
     "description": "Title for the map form button"
+  },
+  "formFieldNameLabel": {
+    "message": "Field Name",
+    "description": "Label for the field name input"
+  },
+  "formMappingNameLabel": {
+    "message": "Mapping Name",
+    "description": "Label for the mapping name input"
+  },
+  "formMappingNamePlaceholder": {
+    "message": "Enter mapping name",
+    "description": "Placeholder for the mapping name input"
+  },
+  "formMappingColumnLabel": {
+    "message": "Column Value",
+    "description": "Label for the column value input"
+  },
+  "formMappingColumnPlaceholder": {
+    "message": "Enter column value",
+    "description": "Placeholder for the column value input"
+  },
+  "formManagementTitle": {
+    "message": "Form Management",
+    "description": "Title for the form management panel"
+  },
+  "savedFormsSearchPlaceholder": {
+    "message": "Search saved forms...",
+    "description": "Placeholder for the saved forms search box"
+  },
+  "clearSearchTitle": {
+    "message": "Clear search",
+    "description": "Title for the clear search button"
+  },
+  "extractFormInitialText": {
+    "message": "Click the button below to extract forms from the current page.",
+    "description": "Text shown in the initial extract form view"
+  },
+  "extractPageFormsButton": {
+    "message": "Extract Page Forms",
+    "description": "Text for the extract page forms button"
+  },
+  "extractingText": {
+    "message": "Extracting...",
+    "description": "Text shown while extracting forms"
+  },
+  "noFormsFoundText": {
+    "message": "No forms were found on this page.",
+    "description": "Text shown when no forms are found"
+  },
+  "extractFormErrorText": {
+    "message": "Error: $error$",
+    "description": "Text shown when there is an error extracting forms",
+    "placeholders": {
+      "error": {
+        "content": "$1",
+        "example": "Could not extract form data."
+      }
+    }
+  },
+  "noSavedFormsFoundText": {
+    "message": "No saved forms found.",
+    "description": "Text shown when no saved forms are found"
   }
 }

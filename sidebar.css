@@ -817,3 +817,49 @@ h3 {
   background-color: var(--item-bg-color);
   color: var(--text-color);
 }
+
+.form-search-container {
+  margin-bottom: 15px;
+}
+
+.form-search-container .search-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.form-search-container input {
+  width: 100%;
+  padding: 8px 30px 8px 12px;
+  border: 1px solid var(--input-border-color);
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 14px;
+  background-color: var(--item-bg-color);
+  color: var(--text-color);
+}
+
+.form-pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 5px;
+}
+
+.form-pagination button {
+  padding: 6px 12px;
+  border: 1px solid var(--border-color);
+  background-color: var(--pagination-button-bg);
+  color: var(--pagination-button-text);
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.form-pagination button:hover {
+  background-color: var(--pagination-button-hover-bg);
+}
+
+.form-pagination button.active {
+  background-color: var(--pagination-button-active-bg);
+  color: var(--pagination-button-active-text);
+}
