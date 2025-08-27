@@ -16,7 +16,7 @@
     "description": "Title for the tags section"
   },
   "searchPlaceholder": {
-    "message": "搜索剪贴板项目...",
+    "message": "搜索...",
     "description": "Placeholder text for the search box"
   },
   "tagSearchPlaceholder": {
@@ -31,45 +31,13 @@
     "message": "复制",
     "description": "Title for the copy button"
   },
-  "copiedButtonTitle": {
-    "message": "已复制!",
-    "description": "Title for the copy button when text is copied"
-  },
-  "copyFailedButtonTitle": {
-    "message": "复制失败!",
-    "description": "Title for the copy button when text copy fails"
-  },
-  "copyFailedAlert": {
-    "message": "复制文本到剪贴板失败。这可能是由于网站限制导致的。",
-    "description": "Alert message when text copy fails"
-  },
-  "exportButtonTitle": {
-    "message": "导出剪贴板数据",
-    "description": "Title for the export button"
-  },
-  "importButtonTitle": {
-    "message": "导入剪贴板数据",
-    "description": "Title for the import button"
-  },
-  "importConfirmMessage": {
-    "message": "导入剪贴板项目？这将替换您当前的剪贴板数据。",
-    "description": "Confirmation message for importing clipboard data"
-  },
-  "importSuccessMessage": {
-    "message": "成功导入剪贴板项目。",
-    "description": "Success message after importing clipboard data"
-  },
-  "importFailedMessage": {
-    "message": "导入剪贴板数据失败。请检查文件格式。",
-    "description": "Error message when importing clipboard data fails"
-  },
-  "invalidImportFileFormat": {
-    "message": "无效的文件格式",
-    "description": "Error message for invalid import file format"
-  },
   "editButtonTitle": {
     "message": "编辑",
     "description": "Title for the edit button"
+  },
+  "saveButtonTitle": {
+    "message": "保存",
+    "description": "Title for the save button"
   },
   "deleteButtonTitle": {
     "message": "删除",
@@ -87,89 +55,70 @@
     "message": "输入新标签:",
     "description": "Prompt text for entering a new tag"
   },
-  "tagLimitAlert": {
-    "message": "每个项目最多只能添加3个标签。",
-    "description": "Alert message when tag limit is reached"
+  "deleteItemConfirm": {
+    "message": "您确定要删除此项目吗？",
+    "description": "Confirmation message for deleting a clipboard item"
   },
-  "settingsButtonTitle": {
-    "message": "设置",
-    "description": "Title for the settings button"
+  "exportButtonTitle": {
+    "message": "导出数据",
+    "description": "Title for the export button"
+  },
+  "importButtonTitle": {
+    "message": "导入数据",
+    "description": "Title for the import button"
+  },
+  "importConfirmMessage": {
+    "message": "导入数据？这将覆盖所有当前数据。",
+    "description": "Confirmation message for importing data"
+  },
+  "importSuccessMessage": {
+    "message": "导入成功！",
+    "description": "Success message after importing data"
+  },
+  "importFailedMessage": {
+    "message": "导入失败: $error$",
+    "description": "Error message when importing data fails",
+    "placeholders": { "error": { "content": "$1" } }
+  },
+  "importFileReadErrorMessage": {
+    "message": "读取文件失败。请检查文件格式。",
+    "description": "Error message when the imported file cannot be read"
   },
   "formPanelButtonTitle": {
     "message": "表单面板",
     "description": "Title for the form panel button"
   },
   "backToMainButtonTitle": {
-    "message": "返回主面板",
+    "message": "返回主页",
     "description": "Title for the back to main button"
   },
-  "settingsTitle": {
-    "message": "设置",
-    "description": "Title for the settings panel"
+  "mapFormButtonTitle": {
+    "message": "映射表单",
+    "description": "Title for the map form button"
   },
-  "savedFormsTabTitle": {
-    "message": "保存的表单",
-    "description": "Title for the saved forms tab"
-  },
-  "formMappingsTabTitle": {
-    "message": "表单映射",
-    "description": "Title for the form mappings tab"
-  },
-  "noSavedFormsMessage": {
-    "message": "未找到保存的表单。",
-    "description": "Message displayed when no saved forms are found"
-  },
-  "noFormMappingsMessage": {
-    "message": "未找到表单映射。",
-    "description": "Message displayed when no form mappings are found"
-  },
-  "editFormButtonTitle": {
-    "message": "编辑",
-    "description": "Title for the edit form button"
-  },
-  "autofillFormButtonTitle": {
-    "message": "自动填充",
-    "description": "Title for the auto-fill form button"
-  },
-  "deleteFormButtonTitle": {
-    "message": "删除",
-    "description": "Title for the delete form button"
-  },
-  "deleteMappingButtonTitle": {
-    "message": "删除",
-    "description": "Title for the delete mapping button"
-  },
-  "savedMessage": {
-    "message": "已保存",
-    "description": "Message displayed when an action is saved"
-  },
-  "cancelButtonTitle": {
-    "message": "取消",
-    "description": "Title for the cancel button"
-  },
-  "saveButtonTitle": {
-    "message": "保存",
-    "description": "Title for the save button"
-  },
-  "confirmDeleteMessage": {
-    "message": "您确定要删除此项吗？",
-    "description": "Confirmation message for deleting an item"
-  },
-  "formFilledSuccessMessage": {
-    "message": "表单填充成功！",
-    "description": "Message displayed when a form is filled successfully"
-  },
-  "formFilledErrorMessage": {
-    "message": "表单填充出错",
-    "description": "Message displayed when there is an error filling a form"
+  "formManagementTitle": {
+    "message": "表单管理",
+    "description": "Title for the form management section"
   },
   "extractFormButtonTitle": {
     "message": "提取表单",
     "description": "Title for the extract form button"
   },
-  "mapFormButtonTitle": {
-    "message": "映射表单",
-    "description": "Title for the map form button"
+  "savedFormsTabTitle": {
+    "message": "已保存的表单",
+    "description": "Title for the saved forms tab"
+  },
+  "cancelButtonTitle": {
+    "message": "取消",
+    "description": "Title for the cancel button"
+  },
+  "clearSearchTitle": {
+    "message": "清除搜索",
+    "description": "Title for the clear search button"
+  },
+  "mapFormTitle": {
+    "message": "映射表单字段",
+    "description": "Title for the map form field modal"
   },
   "formFieldNameLabel": {
     "message": "字段名称",
@@ -185,23 +134,11 @@
   },
   "formMappingColumnLabel": {
     "message": "列值",
-    "description": "Label for the column value input"
+    "description": "Label for the mapping column input"
   },
   "formMappingColumnPlaceholder": {
     "message": "输入列值",
-    "description": "Placeholder for the column value input"
-  },
-  "formManagementTitle": {
-    "message": "表单管理",
-    "description": "Title for the form management panel"
-  },
-  "savedFormsSearchPlaceholder": {
-    "message": "搜索保存的表单...",
-    "description": "Placeholder for the saved forms search box"
-  },
-  "clearSearchTitle": {
-    "message": "清除搜索",
-    "description": "Title for the clear search button"
+    "description": "Placeholder for the mapping column input"
   },
   "extractFormInitialText": {
     "message": "点击下面的按钮从当前页面提取表单。",
@@ -222,15 +159,59 @@
   "extractFormErrorText": {
     "message": "错误：$error$",
     "description": "Text shown when there is an error extracting forms",
-    "placeholders": {
-      "error": {
-        "content": "$1",
-        "example": "无法提取表单数据。"
-      }
-    }
+    "placeholders": { "error": { "content": "$1" } }
   },
   "noSavedFormsFoundText": {
-    "message": "未找到保存的表单。",
+    "message": "未找到已保存的表单。",
     "description": "Text shown when no saved forms are found"
+  },
+  "saveFormsSuccessAlert": {
+    "message": "成功保存了 $count$ 个表单的数据。",
+    "description": "Alert after successfully saving form data.",
+    "placeholders": { "count": { "content": "$1" } }
+  },
+  "saveFormsFailedAlert": {
+    "message": "保存表单失败。",
+    "description": "Alert when saving forms fails."
+  },
+  "noFieldsSelectedAlert": {
+    "message": "未选择要保存的字段。",
+    "description": "Alert when user tries to save a form with no fields checked."
+  },
+  "toggleMappingModeErrorAlert": {
+    "message": "切换映射模式时出错: $error$",
+    "description": "Error when toggling mapping mode.",
+    "placeholders": { "error": { "content": "$1" } }
+  },
+  "unknownErrorText": {
+    "message": "未知错误",
+    "description": "Generic unknown error text"
+  },
+  "formDefaultName": {
+    "message": "表单 $index$",
+    "description": "Default name for a form.",
+    "placeholders": { "index": { "content": "$1" } }
+  },
+  "unnamedFieldLabel": {
+    "message": "未命名字段",
+    "description": "Label for a form field without a name."
+  },
+  "fieldTypeLabel": { "message": "类型", "description": "Label for field type" },
+  "fieldIdLabel": { "message": "ID", "description": "Label for field ID" },
+  "fieldNameDetailLabel": { "message": "名称", "description": "Label for field name in details" },
+  "notAvailableShort": { "message": "无", "description": "Abbreviation for Not Available, e.g., N/A" },
+  "savedMetaPrefix": { "message": "保存于", "description": "Prefix for saved timestamp" },
+  "autofillButtonText": { "message": "自动填充", "description": "Text for the autofill button" },
+  "deleteFormConfirm": {
+    "message": "您确定要删除这个已保存的表单吗？",
+    "description": "Confirmation for deleting a saved form."
+  },
+  "noMappingFieldDataAlert": { "message": "没有要保存的字段数据。", "description": "Alert when saving mapping with no data." },
+  "mappingInputErrorAlert": { "message": "请输入映射名称和列值。", "description": "Alert for incomplete mapping form." },
+  "mappingSaveSuccessAlert": { "message": "映射保存成功！", "description": "Alert for successful mapping save." },
+  "mappingSaveFailedAlert": {
+    "message": "保存映射失败: $error$",
+    "description": "Alert for failed mapping save.",
+    "placeholders": { "error": { "content": "$1" } }
   }
 }

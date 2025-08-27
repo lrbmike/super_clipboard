@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Super Clipboard</title>
+  <!-- 页面标题将由JS动态设置 -->
+  <title></title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="sidebar.css">
@@ -11,33 +12,32 @@
   <div id="main-panel" class="panel active">
     <div id="fixed-header">
       <div class="header-row">
-        <h1 id="extension-title">Super Clipboard</h1>
+        <h1 id="extension-title" data-i18n="extensionName"></h1>
         <div class="button-group">
-          <!-- Settings Button Removed -->
-          <button id="form-panel-btn" class="import-export-btn" title="Form Panel">📋</button>
-          <button id="import-btn" class="import-export-btn" title="__MSG_importButtonTitle__">📥</button>
-          <button id="export-btn" class="import-export-btn" title="__MSG_exportButtonTitle__">📤</button>
+          <button id="form-panel-btn" class="import-export-btn" data-i18n-title="formPanelButtonTitle">📋</button>
+          <button id="import-btn" class="import-export-btn" data-i18n-title="importButtonTitle">📥</button>
+          <button id="export-btn" class="import-export-btn" data-i18n-title="exportButtonTitle">📤</button>
         </div>
       </div>
       <div id="search-container">
         <div class="search-wrapper">
-          <input type="text" id="search-box" placeholder="Search clipboard items...">
-          <button id="search-clear-btn" class="clear-btn" title="Clear search">×</button>
+          <input type="text" id="search-box" data-i18n-placeholder="searchPlaceholder">
+          <button id="search-clear-btn" class="clear-btn" data-i18n-title="clearSearchTitle">×</button>
         </div>
       </div>
       <div id="tag-filter-container">
         <div class="tag-filter-header">
-          <span id="tags-title">Tags</span>
+          <span id="tags-title" data-i18n="tagsTitle"></span>
           <button id="toggle-tags-btn" class="toggle-btn">▼</button>
         </div>
         <div class="tag-search-container hidden" id="tag-search-wrapper">
           <div class="search-wrapper">
-            <input type="text" id="tag-search-box" placeholder="Search tags...">
-            <button id="tag-search-clear-btn" class="clear-btn" title="Clear search">×</button>
+            <input type="text" id="tag-search-box" data-i18n-placeholder="tagSearchPlaceholder">
+            <button id="tag-search-clear-btn" class="clear-btn" data-i18n-title="clearSearchTitle">×</button>
           </div>
         </div>
         <div id="tags-container">
-          <!-- 所有标签将在此处渲染 -->
+          <!-- 所有标签将由JS动态渲染 -->
         </div>
       </div>
     </div>
@@ -48,42 +48,35 @@
   <div id="form-panel" class="panel">
     <div id="form-panel-header">
       <div class="header-row">
-        <h1>Form Management</h1>
+        <h1 data-i18n="formManagementTitle"></h1>
         <div class="button-group">
-          <button id="back-to-main-btn" class="import-export-btn" title="Back to Main">↩️</button>
-          <button id="form-map-btn" class="import-export-btn" title="Map Form">🗺️</button>
+          <button id="back-to-main-btn" class="import-export-btn" data-i18n-title="backToMainButtonTitle">↩️</button>
+          <button id="form-map-btn" class="import-export-btn" data-i18n-title="mapFormButtonTitle">🗺️</button>
         </div>
       </div>
     </div>
     <div id="form-panel-content">
       <div class="form-tabs">
-        <button class="tab-button active" data-tab="extract-form">__MSG_extractFormButtonTitle__</button>
-        <button class="tab-button" data-tab="saved-forms">__MSG_savedFormsTabTitle__</button>
+        <button class="tab-button active" data-tab="extract-form" data-i18n="extractFormButtonTitle"></button>
+        <button class="tab-button" data-tab="saved-forms" data-i18n="savedFormsTabTitle"></button>
       </div>
       
-    <div id="extract-form-tab" class="form-tab-content active">
-      <div id="extract-form-wrapper">
+      <div id="extract-form-tab" class="form-tab-content active">
+        <div id="extract-form-wrapper"></div>
+        <div id="form-data-container"></div>
+        <div class="form-actions">
+          <button id="save-form-data-btn" style="display: none;" data-i18n="saveButtonTitle"></button>
+        </div>
       </div>
-      
-      <div id="form-data-container">
-        <!-- 表单数据将在这里显示 -->
-      </div>
-
-      <div class="form-actions">
-        <button id="save-form-data-btn" style="display: none;">__MSG_saveButtonTitle__</button>
-      </div>
-    </div>
       
       <div id="saved-forms-tab" class="form-tab-content">
         <div class="form-search-container">
           <div class="search-wrapper">
-            <input type="text" id="saved-forms-search" placeholder="__MSG_searchPlaceholder__">
-            <button id="saved-forms-search-clear-btn" class="clear-btn" title="__MSG_cancelButtonTitle__">×</button>
+            <input type="text" id="saved-forms-search" data-i18n-placeholder="searchPlaceholder">
+            <button id="saved-forms-search-clear-btn" class="clear-btn" data-i18n-title="cancelButtonTitle">×</button>
           </div>
         </div>
-        <div id="saved-forms-list">
-          <!-- 保存的表单将在这里显示 -->
-        </div>
+        <div id="saved-forms-list"></div>
       </div>
     </div>
   </div>
@@ -92,34 +85,32 @@
   <div id="form-mapping-modal" class="modal hidden">
     <div class="modal-content">
       <div class="modal-header">
-        <h2>__MSG_mapFormButtonTitle__</h2>
+        <!-- h2和label将由 setModalI18nText 函数动态填充 -->
+        <h2></h2>
         <span class="close-modal">&times;</span>
       </div>
       <div class="modal-body">
         <div id="mapping-form-container">
           <div class="form-group">
-            <label for="field-name">__MSG_formFieldNameLabel__:</label>
+            <label for="field-name"></label>
             <input type="text" id="field-name" readonly>
           </div>
           <div class="form-group">
-            <label for="mapping-name">__MSG_formMappingNameLabel__:</label>
-            <input type="text" id="mapping-name" placeholder="__MSG_formMappingNamePlaceholder__">
+            <label for="mapping-name"></label>
+            <input type="text" id="mapping-name" placeholder="">
           </div>
           <div class="form-group">
-            <label for="mapping-column">__MSG_formMappingColumnLabel__:</label>
-            <input type="text" id="mapping-column" placeholder="__MSG_formMappingColumnPlaceholder__">
+            <label for="mapping-column"></label>
+            <input type="text" id="mapping-column" placeholder="">
           </div>
           <div class="form-actions">
-            <button id="save-mapping-btn">__MSG_saveButtonTitle__</button>
+            <button id="save-mapping-btn"></button>
           </div>
         </div>
       </div>
     </div>
   </div>
   
-  <!-- Settings Modal Removed -->
-  
-  <!-- 隐藏的文件输入元素用于导入功能 -->
   <input type="file" id="import-file-input" accept=".json" style="display: none;">
   <script src="sidebar.js"></script>
 </body>

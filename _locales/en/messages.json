@@ -16,7 +16,7 @@
     "description": "Title for the tags section"
   },
   "searchPlaceholder": {
-    "message": "Search clipboard items...",
+    "message": "Search...",
     "description": "Placeholder text for the search box"
   },
   "tagSearchPlaceholder": {
@@ -31,45 +31,13 @@
     "message": "Copy",
     "description": "Title for the copy button"
   },
-  "copiedButtonTitle": {
-    "message": "Copied!",
-    "description": "Title for the copy button when text is copied"
-  },
-  "copyFailedButtonTitle": {
-    "message": "Copy failed!",
-    "description": "Title for the copy button when text copy fails"
-  },
-  "copyFailedAlert": {
-    "message": "Failed to copy text to clipboard. This may be due to website restrictions.",
-    "description": "Alert message when text copy fails"
-  },
-  "exportButtonTitle": {
-    "message": "Export clipboard data",
-    "description": "Title for the export button"
-  },
-  "importButtonTitle": {
-    "message": "Import clipboard data",
-    "description": "Title for the import button"
-  },
-  "importConfirmMessage": {
-    "message": "Import clipboard items? This will replace your current clipboard data.",
-    "description": "Confirmation message for importing clipboard data"
-  },
-  "importSuccessMessage": {
-    "message": "Successfully imported clipboard items.",
-    "description": "Success message after importing clipboard data"
-  },
-  "importFailedMessage": {
-    "message": "Failed to import clipboard data. Please check the file format.",
-    "description": "Error message when importing clipboard data fails"
-  },
-  "invalidImportFileFormat": {
-    "message": "Invalid file format",
-    "description": "Error message for invalid import file format"
-  },
   "editButtonTitle": {
     "message": "Edit",
     "description": "Title for the edit button"
+  },
+  "saveButtonTitle": {
+    "message": "Save",
+    "description": "Title for the save button"
   },
   "deleteButtonTitle": {
     "message": "Delete",
@@ -87,13 +55,34 @@
     "message": "Enter a new tag:",
     "description": "Prompt text for entering a new tag"
   },
-  "tagLimitAlert": {
-    "message": "You can only add up to 3 tags per item.",
-    "description": "Alert message when tag limit is reached"
+  "deleteItemConfirm": {
+    "message": "Are you sure you want to delete this item?",
+    "description": "Confirmation message for deleting a clipboard item"
   },
-  "settingsButtonTitle": {
-    "message": "Settings",
-    "description": "Title for the settings button"
+  "exportButtonTitle": {
+    "message": "Export Data",
+    "description": "Title for the export button"
+  },
+  "importButtonTitle": {
+    "message": "Import Data",
+    "description": "Title for the import button"
+  },
+  "importConfirmMessage": {
+    "message": "Import data? This will overwrite all current data.",
+    "description": "Confirmation message for importing data"
+  },
+  "importSuccessMessage": {
+    "message": "Import successful!",
+    "description": "Success message after importing data"
+  },
+  "importFailedMessage": {
+    "message": "Import failed: $error$",
+    "description": "Error message when importing data fails",
+    "placeholders": { "error": { "content": "$1" } }
+  },
+  "importFileReadErrorMessage": {
+    "message": "Failed to read file. Please check file format.",
+    "description": "Error message when the imported file cannot be read"
   },
   "formPanelButtonTitle": {
     "message": "Form Panel",
@@ -103,73 +92,33 @@
     "message": "Back to Main",
     "description": "Title for the back to main button"
   },
-  "settingsTitle": {
-    "message": "Settings",
-    "description": "Title for the settings panel"
+  "mapFormButtonTitle": {
+    "message": "Map Form",
+    "description": "Title for the map form button"
   },
-  "savedFormsTabTitle": {
-    "message": "Saved Forms",
-    "description": "Title for the saved forms tab"
-  },
-  "formMappingsTabTitle": {
-    "message": "Form Mappings",
-    "description": "Title for the form mappings tab"
-  },
-  "noSavedFormsMessage": {
-    "message": "No saved forms found.",
-    "description": "Message displayed when no saved forms are found"
-  },
-  "noFormMappingsMessage": {
-    "message": "No form mappings found.",
-    "description": "Message displayed when no form mappings are found"
-  },
-  "editFormButtonTitle": {
-    "message": "Edit",
-    "description": "Title for the edit form button"
-  },
-  "autofillFormButtonTitle": {
-    "message": "Auto-fill",
-    "description": "Title for the auto-fill form button"
-  },
-  "deleteFormButtonTitle": {
-    "message": "Delete",
-    "description": "Title for the delete form button"
-  },
-  "deleteMappingButtonTitle": {
-    "message": "Delete",
-    "description": "Title for the delete mapping button"
-  },
-  "savedMessage": {
-    "message": "Saved",
-    "description": "Message displayed when an action is saved"
-  },
-  "cancelButtonTitle": {
-    "message": "Cancel",
-    "description": "Title for the cancel button"
-  },
-  "saveButtonTitle": {
-    "message": "Save",
-    "description": "Title for the save button"
-  },
-  "confirmDeleteMessage": {
-    "message": "Are you sure you want to delete this item?",
-    "description": "Confirmation message for deleting an item"
-  },
-  "formFilledSuccessMessage": {
-    "message": "Form filled successfully!",
-    "description": "Message displayed when a form is filled successfully"
-  },
-  "formFilledErrorMessage": {
-    "message": "Error filling form",
-    "description": "Message displayed when there is an error filling a form"
+  "formManagementTitle": {
+    "message": "Form Management",
+    "description": "Title for the form management section"
   },
   "extractFormButtonTitle": {
     "message": "Extract Form",
     "description": "Title for the extract form button"
   },
-  "mapFormButtonTitle": {
-    "message": "Map Form",
-    "description": "Title for the map form button"
+  "savedFormsTabTitle": {
+    "message": "Saved Forms",
+    "description": "Title for the saved forms tab"
+  },
+  "cancelButtonTitle": {
+    "message": "Cancel",
+    "description": "Title for the cancel button"
+  },
+  "clearSearchTitle": {
+    "message": "Clear search",
+    "description": "Title for the clear search button"
+  },
+  "mapFormTitle": {
+    "message": "Map Form Field",
+    "description": "Title for the map form field modal"
   },
   "formFieldNameLabel": {
     "message": "Field Name",
@@ -185,23 +134,11 @@
   },
   "formMappingColumnLabel": {
     "message": "Column Value",
-    "description": "Label for the column value input"
+    "description": "Label for the mapping column input"
   },
   "formMappingColumnPlaceholder": {
     "message": "Enter column value",
-    "description": "Placeholder for the column value input"
-  },
-  "formManagementTitle": {
-    "message": "Form Management",
-    "description": "Title for the form management panel"
-  },
-  "savedFormsSearchPlaceholder": {
-    "message": "Search saved forms...",
-    "description": "Placeholder for the saved forms search box"
-  },
-  "clearSearchTitle": {
-    "message": "Clear search",
-    "description": "Title for the clear search button"
+    "description": "Placeholder for the mapping column input"
   },
   "extractFormInitialText": {
     "message": "Click the button below to extract forms from the current page.",
@@ -222,15 +159,59 @@
   "extractFormErrorText": {
     "message": "Error: $error$",
     "description": "Text shown when there is an error extracting forms",
-    "placeholders": {
-      "error": {
-        "content": "$1",
-        "example": "Could not extract form data."
-      }
-    }
+    "placeholders": { "error": { "content": "$1" } }
   },
   "noSavedFormsFoundText": {
     "message": "No saved forms found.",
     "description": "Text shown when no saved forms are found"
+  },
+  "saveFormsSuccessAlert": {
+    "message": "Successfully saved data from $count$ form(s).",
+    "description": "Alert after successfully saving form data.",
+    "placeholders": { "count": { "content": "$1" } }
+  },
+  "saveFormsFailedAlert": {
+    "message": "Failed to save forms.",
+    "description": "Alert when saving forms fails."
+  },
+  "noFieldsSelectedAlert": {
+    "message": "No fields were selected to save.",
+    "description": "Alert when user tries to save a form with no fields checked."
+  },
+  "toggleMappingModeErrorAlert": {
+    "message": "Error toggling mapping mode: $error$",
+    "description": "Error when toggling mapping mode.",
+    "placeholders": { "error": { "content": "$1" } }
+  },
+  "unknownErrorText": {
+    "message": "Unknown error",
+    "description": "Generic unknown error text"
+  },
+  "formDefaultName": {
+    "message": "Form $index$",
+    "description": "Default name for a form.",
+    "placeholders": { "index": { "content": "$1" } }
+  },
+  "unnamedFieldLabel": {
+    "message": "Unnamed Field",
+    "description": "Label for a form field without a name."
+  },
+  "fieldTypeLabel": { "message": "Type", "description": "Label for field type" },
+  "fieldIdLabel": { "message": "ID", "description": "Label for field ID" },
+  "fieldNameDetailLabel": { "message": "Name", "description": "Label for field name in details" },
+  "notAvailableShort": { "message": "N/A", "description": "Abbreviation for Not Available" },
+  "savedMetaPrefix": { "message": "Saved", "description": "Prefix for saved timestamp" },
+  "autofillButtonText": { "message": "Auto-fill", "description": "Text for the autofill button" },
+  "deleteFormConfirm": {
+    "message": "Are you sure you want to delete this saved form?",
+    "description": "Confirmation for deleting a saved form."
+  },
+  "noMappingFieldDataAlert": { "message": "No field data to save.", "description": "Alert when saving mapping with no data." },
+  "mappingInputErrorAlert": { "message": "Please provide both a mapping name and a column value.", "description": "Alert for incomplete mapping form." },
+  "mappingSaveSuccessAlert": { "message": "Mapping saved successfully!", "description": "Alert for successful mapping save." },
+  "mappingSaveFailedAlert": {
+    "message": "Failed to save mapping: $error$",
+    "description": "Alert for failed mapping save.",
+    "placeholders": { "error": { "content": "$1" } }
   }
 }
