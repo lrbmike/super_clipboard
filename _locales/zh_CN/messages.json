@@ -1,15 +1,11 @@
 {
   "extensionName": {
-    "message": "超级剪贴板",
+    "message": "Super Clipboard",
     "description": "Name of the extension"
   },
   "extensionDescription": {
     "message": "一个功能强大的Chrome剪贴板扩展。",
     "description": "Description of the extension"
-  },
-  "contextMenuTitle": {
-    "message": "复制到超级剪贴板",
-    "description": "Title of the context menu item"
   },
   "tagsTitle": {
     "message": "标签",
@@ -213,5 +209,29 @@
     "message": "保存映射失败: $error$",
     "description": "Alert for failed mapping save.",
     "placeholders": { "error": { "content": "$1" } }
+  },
+  "contextMenuAddToSuperClipboard": {
+    "message": "添加到 Super Clipboard",
+    "description": "选中文字时右键菜单的标题。"
+  },
+  "errorInjectScriptFailed": {
+    "message": "未能注入内容脚本。",
+    "description": "内容脚本注入失败时的错误信息。"
+  },
+  "errorConnectionFailedAfterInject": {
+    "message": "脚本注入后连接失败。",
+    "description": "注入后连接仍然失败的错误信息。"
+  },
+  "errorNoActiveTab": {
+    "message": "未找到活动标签页。",
+    "description": "找不到活动标签页来发送消息时的错误信息。"
+  },
+  "errorItemNotFound": {
+    "message": "项目未找到",
+    "description": "尝试更新或删除不存在的剪贴板项目时的错误。"
+  },
+  "errorFormNotFound": {
+    "message": "表单未找到",
+    "description": "尝试更新或删除不存在的已保存表单时的错误。"
   }
 }

@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // 表单面板元素
   const backToMainBtn = document.getElementById('back-to-main-btn');
-  const formMapBtn = document.getElementById('form-map-btn');
+  // const formMapBtn = document.getElementById('form-map-btn');
   const saveFormDataBtn = document.getElementById('save-form-data-btn');
   const formDataContainer = document.getElementById('form-data-container');
   
@@ -181,19 +181,19 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
   
-  formMapBtn.addEventListener('click', () => {
-      isMappingMode = !isMappingMode;
-      chrome.runtime.sendMessage({ action: 'toggleMappingMode', isStarting: isMappingMode }, (response) => {
-          if (response && response.success) {
-              updateMappingButtonUI();
-          } else {
-              const errorMsg = response?.error || chrome.i18n.getMessage("unknownErrorText");
-              alert(chrome.i18n.getMessage("toggleMappingModeErrorAlert", [errorMsg]));
-              isMappingMode = false;
-              updateMappingButtonUI();
-          }
-      });
-  });
+  // formMapBtn.addEventListener('click', () => {
+  //     isMappingMode = !isMappingMode;
+  //     chrome.runtime.sendMessage({ action: 'toggleMappingMode', isStarting: isMappingMode }, (response) => {
+  //         if (response && response.success) {
+  //             updateMappingButtonUI();
+  //         } else {
+  //             const errorMsg = response?.error || chrome.i18n.getMessage("unknownErrorText");
+  //             alert(chrome.i18n.getMessage("toggleMappingModeErrorAlert", [errorMsg]));
+  //             isMappingMode = false;
+  //             updateMappingButtonUI();
+  //         }
+  //     });
+  // });
 
   saveMappingBtn.addEventListener('click', saveFormMapping);
 
@@ -741,11 +741,11 @@ function handleEdit(button, item) {
   }
 
   // (This function is likely defined elsewhere, stubbing it here for completeness if needed)
-  function updateMappingButtonUI() {
-    if (formMapBtn) {
-      formMapBtn.classList.toggle('active', isMappingMode);
-    }
-  }
+  // function updateMappingButtonUI() {
+  //   if (formMapBtn) {
+  //     formMapBtn.classList.toggle('active', isMappingMode);
+  //   }
+  // }
 
   // --- Chrome API 监听器 ---
   chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -753,10 +753,11 @@ function handleEdit(button, item) {
       loadClipboardItems();
     } else if (request.action === "showMappingDialog") {
       showMappingDialog(request.fieldData);
-    } else if (request.action === "mapping_finished") {
-      isMappingMode = false;
-      updateMappingButtonUI();
-    }
+    } 
+    // else if (request.action === "mapping_finished") {
+    //   isMappingMode = false;
+    //   updateMappingButtonUI();
+    // }
     // Return true to indicate you wish to send a response asynchronously
     // This is good practice, though not strictly necessary for all listeners.
     return true; 

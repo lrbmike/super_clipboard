@@ -7,10 +7,6 @@
     "message": "A powerful clipboard extension for Chrome.",
     "description": "Description of the extension"
   },
-  "contextMenuTitle": {
-    "message": "Copy to Super Clipboard",
-    "description": "Title of the context menu item"
-  },
   "tagsTitle": {
     "message": "Tags",
     "description": "Title for the tags section"
@@ -213,5 +209,29 @@
     "message": "Failed to save mapping: $error$",
     "description": "Alert for failed mapping save.",
     "placeholders": { "error": { "content": "$1" } }
+  },
+  "contextMenuAddToSuperClipboard": {
+    "message": "Add to Super Clipboard",
+    "description": "Title for the context menu item when selecting text."
+  },
+  "errorInjectScriptFailed": {
+    "message": "Failed to inject content script.",
+    "description": "Error message when content script injection fails."
+  },
+  "errorConnectionFailedAfterInject": {
+    "message": "Connection failed after script injection.",
+    "description": "Error message when connection still fails after injection."
+  },
+  "errorNoActiveTab": {
+    "message": "No active tab found.",
+    "description": "Error message when no active tab is found to send a message to."
+  },
+  "errorItemNotFound": {
+    "message": "Item not found",
+    "description": "Error when trying to update or delete a non-existent clipboard item."
+  },
+  "errorFormNotFound": {
+    "message": "Form not found",
+    "description": "Error when trying to update or delete a non-existent saved form."
   }
 }
