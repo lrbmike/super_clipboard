@@ -51,7 +51,6 @@
         <h1>Form Management</h1>
         <div class="button-group">
           <button id="back-to-main-btn" class="import-export-btn" title="Back to Main">↩️</button>
-          <button id="form-extract-btn" class="import-export-btn" title="Extract Form">📋</button>
           <button id="form-map-btn" class="import-export-btn" title="Map Form">🗺️</button>
         </div>
       </div>
@@ -63,14 +62,18 @@
         <button class="tab-button" data-tab="form-mappings">Form Mappings</button>
       </div>
       
-      <div id="extract-form-tab" class="form-tab-content active">
-        <div id="form-data-container">
-          <!-- 表单数据将在这里显示 -->
-        </div>
-        <div class="form-actions">
-          <button id="save-form-data-btn">Save Form Data</button>
-        </div>
+    <div id="extract-form-tab" class="form-tab-content active">
+      <div id="extract-form-wrapper">
       </div>
+      
+      <div id="form-data-container">
+        <!-- 表单数据将在这里显示 -->
+      </div>
+
+      <div class="form-actions">
+        <button id="save-form-data-btn" style="display: none;">Save Form Data</button>
+      </div>
+    </div>
       
       <div id="saved-forms-tab" class="form-tab-content">
         <h3>Saved Forms</h3>

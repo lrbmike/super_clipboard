@@ -19,10 +19,10 @@ document.addEventListener('DOMContentLoaded', () => {
   const importBtn = document.getElementById('import-btn');
   const importFileInput = document.getElementById('import-file-input');
   const formPanelBtn = document.getElementById('form-panel-btn');
+  const extractFormWrapper = document.getElementById('extract-form-wrapper');
   
   // 表单面板元素
   const backToMainBtn = document.getElementById('back-to-main-btn');
-  const formExtractBtn = document.getElementById('form-extract-btn');
   const formMapBtn = document.getElementById('form-map-btn');
   const saveFormDataBtn = document.getElementById('save-form-data-btn');
   const formDataContainer = document.getElementById('form-data-container');
@@ -73,13 +73,16 @@ document.addEventListener('DOMContentLoaded', () => {
   importBtn.title = chrome.i18n.getMessage("importButtonTitle") || "Import clipboard data";
   formPanelBtn.title = chrome.i18n.getMessage("formPanelButtonTitle") || "Form Panel";
   backToMainBtn.title = chrome.i18n.getMessage("backToMainButtonTitle") || "Back to Main";
-  formExtractBtn.title = chrome.i18n.getMessage("extractFormButtonTitle") || "Extract Form";
   formMapBtn.title = chrome.i18n.getMessage("mapFormButtonTitle") || "Map Form";
 
   // --- 事件监听器 ---
 
   // 面板切换
-  formPanelBtn.addEventListener('click', () => switchToPanel(formPanel));
+ formPanelBtn.addEventListener('click', () => {
+    switchToPanel(formPanel);
+    // Ensure the extract tab is active and shows its initial view
+    formTabButtons[0].click(); 
+  });
   backToMainBtn.addEventListener('click', () => switchToPanel(mainPanel));
 
   // 导出/导入
@@ -91,24 +94,16 @@ document.addEventListener('DOMContentLoaded', () => {
     event.target.value = '';
   });
 
-  // 表单功能按钮
-  formExtractBtn.addEventListener('click', () => {
-    chrome.runtime.sendMessage({ action: 'extractFormData' }, (response) => {
-      if (response && response.success) {
-        renderFormData(response.formData);
-      } else {
-        formDataContainer.innerHTML = `<p>Error: ${response?.error || 'Could not extract form.'}</p>`;
-      }
-    });
-  });
-
   saveFormDataBtn.addEventListener('click', () => {
     const formsToSave = getFormsToSaveFromUI();
     if (formsToSave.length > 0) {
       chrome.runtime.sendMessage({ action: 'saveExtractedForms', forms: formsToSave }, (response) => {
         if (response && response.success) {
           alert(`Successfully saved data from ${formsToSave.length} form(s).`);
-          formDataContainer.innerHTML = '';
+          const savedFormsTabButton = document.querySelector('.form-tabs .tab-button[data-tab="saved-forms"]');
+          if (savedFormsTabButton) {
+            savedFormsTabButton.click();
+          }
         } else {
           alert('Failed to save forms.');
         }
@@ -147,8 +142,14 @@ document.addEventListener('DOMContentLoaded', () => {
     button.addEventListener('click', () => {
       const tabId = button.dataset.tab;
       activateTab(formTabButtons, formTabContents, button, `${tabId}-tab`);
-      if (tabId === 'saved-forms') loadSavedForms(savedFormsList);
-      else if (tabId === 'form-mappings') loadFormMappings(formMappingsList);
+      
+      if (tabId === 'extract-form') {
+        showInitialExtractView();
+      } else if (tabId === 'saved-forms') {
+        loadSavedForms();
+      } else if (tabId === 'form-mappings') {
+        loadFormMappings();
+      }
     });
   });
   
@@ -205,6 +206,37 @@ document.addEventListener('DOMContentLoaded', () => {
       `;
 
       formDataContainer.appendChild(formSection);
+    });
+  }
+
+  function showInitialExtractView() {
+    formDataContainer.innerHTML = ''; // Clear previous results
+    saveFormDataBtn.style.display = 'none'; // Hide save button
+
+    extractFormWrapper.innerHTML = `
+      <div style="text-align: center; padding: 40px 20px;">
+        <p style="margin-bottom: 20px;">Click the button below to extract forms from the current page.</p>
+        <button id="trigger-extract-btn" class="btn-primary" style="padding: 10px 20px; font-size: 16px;">Extract Page Forms</button>
+      </div>
+    `;
+
+    // Add event listener to the new button
+    document.getElementById('trigger-extract-btn').addEventListener('click', () => {
+      extractFormWrapper.innerHTML = '<p style="text-align: center;">Extracting...</p>'; // Show loading state
+      
+      chrome.runtime.sendMessage({ action: 'extractFormData' }, (response) => {
+        extractFormWrapper.innerHTML = ''; // Clear the initial view/loading state
+        if (response && response.success) {
+          if (response.formData && response.formData.length > 0) {
+            renderFormData(response.formData);
+            saveFormDataBtn.style.display = 'block'; // Show the save button
+          } else {
+            formDataContainer.innerHTML = '<p style="text-align: center;">No forms were found on this page.</p>';
+          }
+        } else {
+          formDataContainer.innerHTML = `<p style="text-align: center;">Error: ${response?.error || 'Could not extract form data.'}</p>`;
+        }
+      });
     });
   }
 
@@ -320,7 +352,6 @@ function editSavedForm(index, forms, container) {
       const form = forms[index];
       const itemElement = container.querySelector(`.edit-form-btn[data-index="${index}"]`).closest('.saved-form-item');
 
-      // *** MODIFICATION 1: Make the form title an editable input ***
       // Target the header element and replace its content with an input field.
       const headerElement = itemElement.querySelector('.saved-form-header');
       headerElement.innerHTML = `<input type="text" class="edit-input saved-form-title-input" value="${form.formName.replace(/"/g, "&quot;")}">`;
@@ -333,7 +364,7 @@ function editSavedForm(index, forms, container) {
       
       // Add event listener for the new "Save" button
       itemElement.querySelector('.save-edit-btn').addEventListener('click', () => {
-          // *** MODIFICATION 2: Read the new title from the input when saving ***
+
           forms[index].formName = itemElement.querySelector('.saved-form-title-input').value;
           
           // This part remains the same: it reads the new field values.
