@@ -7,37 +7,118 @@
   <link rel="stylesheet" href="sidebar.css">
 </head>
 <body>
-  <div id="fixed-header">
-    <div class="header-row">
-      <h1 id="extension-title">Super Clipboard</h1>
-      <div class="button-group">
-        <button id="import-btn" class="import-export-btn" title="__MSG_importButtonTitle__">📥</button>
-        <button id="export-btn" class="import-export-btn" title="__MSG_exportButtonTitle__">📤</button>
-      </div>
-    </div>
-    <div id="search-container">
-      <div class="search-wrapper">
-        <input type="text" id="search-box" placeholder="Search clipboard items...">
-        <button id="search-clear-btn" class="clear-btn" title="Clear search">×</button>
-      </div>
-    </div>
-    <div id="tag-filter-container">
-      <div class="tag-filter-header">
-        <span id="tags-title">Tags</span>
-        <button id="toggle-tags-btn" class="toggle-btn">▼</button>
-      </div>
-      <div class="tag-search-container hidden" id="tag-search-wrapper">
-        <div class="search-wrapper">
-          <input type="text" id="tag-search-box" placeholder="Search tags...">
-          <button id="tag-search-clear-btn" class="clear-btn" title="Clear search">×</button>
+  <!-- 主面板 -->
+  <div id="main-panel" class="panel active">
+    <div id="fixed-header">
+      <div class="header-row">
+        <h1 id="extension-title">Super Clipboard</h1>
+        <div class="button-group">
+          <!-- Settings Button Removed -->
+          <button id="form-panel-btn" class="import-export-btn" title="Form Panel">📋</button>
+          <button id="import-btn" class="import-export-btn" title="__MSG_importButtonTitle__">📥</button>
+          <button id="export-btn" class="import-export-btn" title="__MSG_exportButtonTitle__">📤</button>
         </div>
       </div>
-      <div id="tags-container">
-        <!-- 所有标签将在此处渲染 -->
+      <div id="search-container">
+        <div class="search-wrapper">
+          <input type="text" id="search-box" placeholder="Search clipboard items...">
+          <button id="search-clear-btn" class="clear-btn" title="Clear search">×</button>
+        </div>
+      </div>
+      <div id="tag-filter-container">
+        <div class="tag-filter-header">
+          <span id="tags-title">Tags</span>
+          <button id="toggle-tags-btn" class="toggle-btn">▼</button>
+        </div>
+        <div class="tag-search-container hidden" id="tag-search-wrapper">
+          <div class="search-wrapper">
+            <input type="text" id="tag-search-box" placeholder="Search tags...">
+            <button id="tag-search-clear-btn" class="clear-btn" title="Clear search">×</button>
+          </div>
+        </div>
+        <div id="tags-container">
+          <!-- 所有标签将在此处渲染 -->
+        </div>
+      </div>
+    </div>
+    <div id="clipboard-list"></div>
+  </div>
+
+  <!-- 表单面板 -->
+  <div id="form-panel" class="panel">
+    <div id="form-panel-header">
+      <div class="header-row">
+        <h1>Form Management</h1>
+        <div class="button-group">
+          <button id="back-to-main-btn" class="import-export-btn" title="Back to Main">↩️</button>
+          <button id="form-extract-btn" class="import-export-btn" title="Extract Form">📋</button>
+          <button id="form-map-btn" class="import-export-btn" title="Map Form">🗺️</button>
+        </div>
+      </div>
+    </div>
+    <div id="form-panel-content">
+      <div class="form-tabs">
+        <button class="tab-button active" data-tab="extract-form">Extract Form</button>
+        <button class="tab-button" data-tab="saved-forms">Saved Forms</button>
+        <button class="tab-button" data-tab="form-mappings">Form Mappings</button>
+      </div>
+      
+      <div id="extract-form-tab" class="form-tab-content active">
+        <div id="form-data-container">
+          <!-- 表单数据将在这里显示 -->
+        </div>
+        <div class="form-actions">
+          <button id="save-form-data-btn">Save Form Data</button>
+        </div>
+      </div>
+      
+      <div id="saved-forms-tab" class="form-tab-content">
+        <h3>Saved Forms</h3>
+        <div id="saved-forms-list">
+          <!-- 保存的表单将在这里显示 -->
+        </div>
+      </div>
+      
+      <div id="form-mappings-tab" class="form-tab-content">
+        <h3>Form Mappings</h3>
+        <div id="form-mappings-list">
+          <!-- 表单映射将在这里显示 -->
+        </div>
       </div>
     </div>
   </div>
-  <div id="clipboard-list"></div>
+
+  <!-- 表单映射模态框 -->
+  <div id="form-mapping-modal" class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Map Form Field</h2>
+        <span class="close-modal">&times;</span>
+      </div>
+      <div class="modal-body">
+        <div id="mapping-form-container">
+          <div class="form-group">
+            <label for="field-name">Field Name:</label>
+            <input type="text" id="field-name" readonly>
+          </div>
+          <div class="form-group">
+            <label for="mapping-name">Mapping Name:</label>
+            <input type="text" id="mapping-name" placeholder="Enter mapping name">
+          </div>
+          <div class="form-group">
+            <label for="mapping-column">Column Value:</label>
+            <input type="text" id="mapping-column" placeholder="Enter column value">
+          </div>
+          <div class="form-actions">
+            <button id="save-mapping-btn">Save Mapping</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Settings Modal Removed -->
+  
   <!-- 隐藏的文件输入元素用于导入功能 -->
   <input type="file" id="import-file-input" accept=".json" style="display: none;">
   <script src="sidebar.js"></script>

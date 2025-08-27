@@ -1,14 +1,14 @@
 {
   "extensionName": {
-    "message": "Super Clipboard",
+    "message": "超级剪贴板",
     "description": "Name of the extension"
   },
   "extensionDescription": {
-    "message": "一个功能强大的 Chrome 剪贴板扩展。",
+    "message": "一个功能强大的Chrome剪贴板扩展。",
     "description": "Description of the extension"
   },
   "contextMenuTitle": {
-    "message": "复制到 Super Clipboard",
+    "message": "复制到超级剪贴板",
     "description": "Title of the context menu item"
   },
   "tagsTitle": {
@@ -16,7 +16,7 @@
     "description": "Title for the tags section"
   },
   "searchPlaceholder": {
-    "message": "搜索剪贴板内容...",
+    "message": "搜索剪贴板项目...",
     "description": "Placeholder text for the search box"
   },
   "tagSearchPlaceholder": {
@@ -40,7 +40,7 @@
     "description": "Title for the copy button when text copy fails"
   },
   "copyFailedAlert": {
-    "message": "无法复制文本到剪贴板。这可能是由于网站限制导致的。",
+    "message": "复制文本到剪贴板失败。这可能是由于网站限制导致的。",
     "description": "Alert message when text copy fails"
   },
   "exportButtonTitle": {
@@ -76,7 +76,7 @@
     "description": "Title for the delete button"
   },
   "linkButtonTitle": {
-    "message": "跳转到链接",
+    "message": "前往链接",
     "description": "Title for the link button"
   },
   "addTagButtonTitle": {
@@ -90,5 +90,85 @@
   "tagLimitAlert": {
     "message": "每个项目最多只能添加3个标签。",
     "description": "Alert message when tag limit is reached"
+  },
+  "settingsButtonTitle": {
+    "message": "设置",
+    "description": "Title for the settings button"
+  },
+  "formPanelButtonTitle": {
+    "message": "表单面板",
+    "description": "Title for the form panel button"
+  },
+  "backToMainButtonTitle": {
+    "message": "返回主面板",
+    "description": "Title for the back to main button"
+  },
+  "settingsTitle": {
+    "message": "设置",
+    "description": "Title for the settings panel"
+  },
+  "savedFormsTabTitle": {
+    "message": "保存的表单",
+    "description": "Title for the saved forms tab"
+  },
+  "formMappingsTabTitle": {
+    "message": "表单映射",
+    "description": "Title for the form mappings tab"
+  },
+  "noSavedFormsMessage": {
+    "message": "未找到保存的表单。",
+    "description": "Message displayed when no saved forms are found"
+  },
+  "noFormMappingsMessage": {
+    "message": "未找到表单映射。",
+    "description": "Message displayed when no form mappings are found"
+  },
+  "editFormButtonTitle": {
+    "message": "编辑",
+    "description": "Title for the edit form button"
+  },
+  "autofillFormButtonTitle": {
+    "message": "自动填充",
+    "description": "Title for the auto-fill form button"
+  },
+  "deleteFormButtonTitle": {
+    "message": "删除",
+    "description": "Title for the delete form button"
+  },
+  "deleteMappingButtonTitle": {
+    "message": "删除",
+    "description": "Title for the delete mapping button"
+  },
+  "savedMessage": {
+    "message": "已保存",
+    "description": "Message displayed when an action is saved"
+  },
+  "cancelButtonTitle": {
+    "message": "取消",
+    "description": "Title for the cancel button"
+  },
+  "saveButtonTitle": {
+    "message": "保存",
+    "description": "Title for the save button"
+  },
+  "confirmDeleteMessage": {
+    "message": "您确定要删除此项吗？",
+    "description": "Confirmation message for deleting an item"
+  },
+  "formFilledSuccessMessage": {
+    "message": "表单填充成功！",
+    "description": "Message displayed when a form is filled successfully"
+  },
+  "formFilledErrorMessage": {
+    "message": "表单填充出错",
+    "description": "Message displayed when there is an error filling a form"
+  },
+  "extractFormButtonTitle": {
+    "message": "提取表单",
+    "description": "Title for the extract form button"
+  },
+  "mapFormButtonTitle": {
+    "message": "映射表单",
+    "description": "Title for the map form button"
   }
 }

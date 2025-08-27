@@ -90,5 +90,85 @@
   "tagLimitAlert": {
     "message": "You can only add up to 3 tags per item.",
     "description": "Alert message when tag limit is reached"
+  },
+  "settingsButtonTitle": {
+    "message": "Settings",
+    "description": "Title for the settings button"
+  },
+  "formPanelButtonTitle": {
+    "message": "Form Panel",
+    "description": "Title for the form panel button"
+  },
+  "backToMainButtonTitle": {
+    "message": "Back to Main",
+    "description": "Title for the back to main button"
+  },
+  "settingsTitle": {
+    "message": "Settings",
+    "description": "Title for the settings panel"
+  },
+  "savedFormsTabTitle": {
+    "message": "Saved Forms",
+    "description": "Title for the saved forms tab"
+  },
+  "formMappingsTabTitle": {
+    "message": "Form Mappings",
+    "description": "Title for the form mappings tab"
+  },
+  "noSavedFormsMessage": {
+    "message": "No saved forms found.",
+    "description": "Message displayed when no saved forms are found"
+  },
+  "noFormMappingsMessage": {
+    "message": "No form mappings found.",
+    "description": "Message displayed when no form mappings are found"
+  },
+  "editFormButtonTitle": {
+    "message": "Edit",
+    "description": "Title for the edit form button"
+  },
+  "autofillFormButtonTitle": {
+    "message": "Auto-fill",
+    "description": "Title for the auto-fill form button"
+  },
+  "deleteFormButtonTitle": {
+    "message": "Delete",
+    "description": "Title for the delete form button"
+  },
+  "deleteMappingButtonTitle": {
+    "message": "Delete",
+    "description": "Title for the delete mapping button"
+  },
+  "savedMessage": {
+    "message": "Saved",
+    "description": "Message displayed when an action is saved"
+  },
+  "cancelButtonTitle": {
+    "message": "Cancel",
+    "description": "Title for the cancel button"
+  },
+  "saveButtonTitle": {
+    "message": "Save",
+    "description": "Title for the save button"
+  },
+  "confirmDeleteMessage": {
+    "message": "Are you sure you want to delete this item?",
+    "description": "Confirmation message for deleting an item"
+  },
+  "formFilledSuccessMessage": {
+    "message": "Form filled successfully!",
+    "description": "Message displayed when a form is filled successfully"
+  },
+  "formFilledErrorMessage": {
+    "message": "Error filling form",
+    "description": "Message displayed when there is an error filling a form"
+  },
+  "extractFormButtonTitle": {
+    "message": "Extract Form",
+    "description": "Title for the extract form button"
+  },
+  "mapFormButtonTitle": {
+    "message": "Map Form",
+    "description": "Title for the map form button"
   }
 }
