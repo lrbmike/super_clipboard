@@ -13,6 +13,7 @@ A powerful clipboard extension for Chrome that helps you better manage and organ
 - **Content Editing**: Edit clipboard content directly within the extension
 - **Data Import/Export**: Import and export clipboard data for backup and transfer
 - **Responsive Design**: Adapts to different screen sizes and window dimensions
+- **Form Management**: Extract forms from web pages, save them, and auto-fill forms with saved data
 
 ## Installation and Usage
 
@@ -23,6 +24,32 @@ A powerful clipboard extension for Chrome that helps you better manage and organ
 5. Once installed, you can use the extension in two ways:
    - Click the extension icon in the browser toolbar to open the clipboard panel
    - Select text on a webpage, right-click, and choose "Copy to Super Clipboard" to add content to the clipboard
+
+### Using Clipboard Features
+
+- Use the search box to find specific clipboard items by content
+- Filter items by tags using the tag filter section
+- Copy items to your system clipboard with the copy button
+- Edit item content by clicking the edit button
+- Delete items you no longer need
+- Navigate to the source webpage of an item with the link button
+- Add tags to items for better organization
+
+### Using Form Features
+
+1. Open the Form Panel by clicking the clipboard icon in the main panel header
+2. Use the "Extract Form" tab to extract forms from the current webpage
+3. Save extracted forms for later use
+4. Use the "Saved Forms" tab to manage your saved forms
+5. Return to the main clipboard panel at any time with the back button
+
+### Import/Export Functionality
+
+The extension provides data import and export capabilities:
+- **Export**: Click the 📤 button in the header to export all clipboard data as a JSON file
+- **Import**: Click the 📥 button in the header to import previously exported clipboard data
+- Exported files contain all clipboard items with timestamps, source URLs, and tags
+- Imported data will replace your current clipboard data after confirmation
 
 ## Privacy and Data Storage
 
@@ -44,6 +71,7 @@ Your clipboard history remains private and secure, accessible only to you on you
 - Tag area: Shows frequently used tags, click to filter
 - Content list: Displays clipboard items grouped by date
 - Import/Export buttons: Buttons in the header to import or export clipboard data
+- Form Panel button: Access form management features
 
 ### Tag Features
 - By default, displays the top 5 most frequently used tags
@@ -58,13 +86,6 @@ Each clipboard item provides the following action buttons:
 - 🗑️ Delete: Remove this item
 - 🔗 Link: Navigate to the source webpage
 - 🏷️ Tag: Add tags to the content
-
-### Import/Export Functionality
-The extension provides data import and export capabilities:
-- **Export**: Click the 📤 button in the header to export all clipboard data as a JSON file
-- **Import**: Click the 📥 button in the header to import previously exported clipboard data
-- Exported files contain all clipboard items with timestamps, source URLs, and tags
-- Imported data will replace your current clipboard data after confirmation
 
 ## Development and Contribution
 
