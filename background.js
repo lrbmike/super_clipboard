@@ -97,65 +97,66 @@ chrome.action.onClicked.addListener((tab) => {
 
 // --- 消息中心：处理来自 sidebar 和 content script 的所有消息 ---
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  
+  // 定义所有 action 的处理器
+  // *** 核心修改：所有函数都统一使用 (request, sender, sendResponse) 签名 ***
   const actions = {
-    getClipboardItems: () => {
+    getClipboardItems: (request, sender, sendResponse) => {
       chrome.storage.local.get({ clipboard: [] }, (result) => sendResponse(result.clipboard));
       return true;
     },
-    updateClipboardItem: (data) => {
+    updateClipboardItem: (request, sender, sendResponse) => {
       chrome.storage.local.get({ clipboard: [] }, (result) => {
-        const index = result.clipboard.findIndex(clip => clip.timestamp === data.item.timestamp);
+        const index = result.clipboard.findIndex(clip => clip.timestamp === request.item.timestamp);
         if (index > -1) {
-          result.clipboard[index] = { ...result.clipboard[index], ...data.updates };
+          result.clipboard[index] = { ...result.clipboard[index], ...request.updates };
           chrome.storage.local.set({ clipboard: result.clipboard }, () => sendResponse({ success: true }));
         } else {
-          // 修改点
           sendResponse({ success: false, error: chrome.i18n.getMessage("errorItemNotFound") });
         }
       });
       return true;
     },
-    deleteClipboardItem: (data) => {
+    deleteClipboardItem: (request, sender, sendResponse) => {
       chrome.storage.local.get({ clipboard: [] }, (result) => {
-        const newClipboard = result.clipboard.filter(clip => clip.timestamp !== data.timestamp);
+        const newClipboard = result.clipboard.filter(clip => clip.timestamp !== request.timestamp);
         chrome.storage.local.set({ clipboard: newClipboard }, () => sendResponse({ success: true }));
       });
       return true;
     },
-    getSavedForms: () => {
+    getSavedForms: (request, sender, sendResponse) => {
       chrome.storage.local.get({ savedForms: [] }, (result) => sendResponse(result.savedForms));
       return true;
     },
-    saveExtractedForms: (data) => {
+    saveExtractedForms: (request, sender, sendResponse) => {
        chrome.storage.local.get({ savedForms: [] }, (result) => {
-        const updatedForms = result.savedForms.concat(data.forms);
+        const updatedForms = result.savedForms.concat(request.forms);
         chrome.storage.local.set({ savedForms: updatedForms }, () => sendResponse({ success: true }));
       });
       return true;
     },
-    deleteSavedForm: (data) => {
+    deleteSavedForm: (request, sender, sendResponse) => {
       chrome.storage.local.get({ savedForms: [] }, (result) => {
-        result.savedForms.splice(data.index, 1);
+        result.savedForms.splice(request.index, 1);
         chrome.storage.local.set({ savedForms: result.savedForms }, () => sendResponse({ success: true }));
       });
       return true;
     },
-    updateSavedForm: (data) => {
+    updateSavedForm: (request, sender, sendResponse) => {
       chrome.storage.local.get({ savedForms: [] }, (result) => {
-        if (result.savedForms && result.savedForms[data.index]) {
-          result.savedForms[data.index] = data.form;
+        if (result.savedForms && result.savedForms[request.index]) {
+          result.savedForms[request.index] = request.form;
           chrome.storage.local.set({ savedForms: result.savedForms }, () => sendResponse({ success: true }));
         } else {
-          // 修改点
           sendResponse({ success: false, error: chrome.i18n.getMessage("errorFormNotFound") });
         }
       });
       return true;
     },
-    saveFormMapping: (data) => {
+    saveFormMapping: (request, sender, sendResponse) => {
       chrome.storage.local.get({ formMappings: [] }, (result) => {
         let mappings = result.formMappings || [];
-        const { mappingData } = data;
+        const { mappingData } = request;
         const existingMappingIndex = mappings.findIndex(m => m.name === mappingData.name && m.urlPattern === mappingData.urlPattern);
         
         if (existingMappingIndex > -1) {
@@ -181,7 +182,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       });
       return true;
     },
-    exportData: (data) => {
+    exportData: (request, sender, sendResponse) => {
         chrome.storage.local.get(null, (allData) => {
             const exportObj = {
                 version: "1.1",
@@ -192,9 +193,49 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         });
         return true;
     },
-    importData: (data) => {
-        chrome.storage.local.clear(() => {
-            chrome.storage.local.set(data.data, (result) => {
+    importData: (request, sender, sendResponse) => { // 这是我们之前修改过的函数，保持不变
+        const importedDataContainer = request.data;
+        const dataToImport = importedDataContainer.data;
+
+        if (!dataToImport || typeof dataToImport !== 'object') {
+            const errorMessage = chrome.i18n.getMessage("importFileReadErrorMessage") || "Invalid file format.";
+            sendResponse({ success: false, error: errorMessage });
+            return true;
+        }
+
+        chrome.storage.local.get(null, (existingData) => {
+            if (chrome.runtime.lastError) {
+                sendResponse({ success: false, error: chrome.runtime.lastError.message });
+                return;
+            }
+
+            const mergedData = {
+                clipboard: existingData.clipboard || [],
+                savedForms: existingData.savedForms || [],
+                formMappings: existingData.formMappings || []
+            };
+
+            if (dataToImport.clipboard && Array.isArray(dataToImport.clipboard)) {
+                const existingTimestamps = new Set(mergedData.clipboard.map(item => item.timestamp));
+                const newItems = dataToImport.clipboard.filter(item => !existingTimestamps.has(item.timestamp));
+                mergedData.clipboard.push(...newItems);
+                mergedData.clipboard.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+            }
+            
+            if (dataToImport.savedForms && Array.isArray(dataToImport.savedForms)) {
+                const existingTimestamps = new Set(mergedData.savedForms.map(form => form.timestamp));
+                const newForms = dataToImport.savedForms.filter(form => !existingTimestamps.has(form.timestamp));
+                mergedData.savedForms.push(...newForms);
+                mergedData.savedForms.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+            }
+
+            if (dataToImport.formMappings && Array.isArray(dataToImport.formMappings)) {
+                const existingMappingKeys = new Set(mergedData.formMappings.map(m => `${m.name}|${m.urlPattern}`));
+                const newMappings = dataToImport.formMappings.filter(m => !existingMappingKeys.has(`${m.name}|${m.urlPattern}`));
+                mergedData.formMappings.push(...newMappings);
+            }
+            
+            chrome.storage.local.set(mergedData, () => {
                 if (chrome.runtime.lastError) {
                     sendResponse({ success: false, error: chrome.runtime.lastError.message });
                 } else {
@@ -202,29 +243,39 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
                 }
             });
         });
+        
         return true;
     },
-    extractFormData: () => {
+    extractFormData: (request, sender, sendResponse) => {
       sendMessageToActiveTab({ action: "extractForm" }, sendResponse);
       return true;
     },
-    autoFillForm: (data) => {
-      sendMessageToActiveTab({ action: "autoFillForm", data: data.mappingData }, sendResponse);
+    autoFillForm: (request, sender, sendResponse) => {
+      sendMessageToActiveTab({ action: "autoFillForm", data: request.mappingData }, sendResponse);
       return true;
     },
-    toggleMappingMode: (data) => {
-      const action = data.isStarting ? "startFormMapping" : "stopFormMapping";
+    toggleMappingMode: (request, sender, sendResponse) => {
+      const action = request.isStarting ? "startFormMapping" : "stopFormMapping";
       sendMessageToActiveTab({ action }, sendResponse);
       return true;
+    },
+    // 下面这些是不需要响应的广播消息，所以它们没有 sendResponse，也不返回 true
+    showMappingDialog: (request) => {
+        chrome.runtime.sendMessage(request);
+    },
+    mapping_finished: (request) => {
+        chrome.runtime.sendMessage(request);
     }
   };
 
-  if (actions[request.action]) {
-    return actions[request.action](request, sender);
-  }
+  // 统一的调度器
+  const handler = actions[request.action];
 
-  if (request.action === "showMappingDialog" || request.action === "mapping_finished") {
-      chrome.runtime.sendMessage(request);
+  if (handler) {
+    // *** 核心修改：总是用这三个参数来调用 handler ***
+    return handler(request, sender, sendResponse);
+  } else {
+    console.warn("Unknown action received in background.js:", request.action);
   }
 });
 

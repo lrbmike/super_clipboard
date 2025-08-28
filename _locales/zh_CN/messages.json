@@ -64,7 +64,7 @@
     "description": "Title for the import button"
   },
   "importConfirmMessage": {
-    "message": "导入数据？这将覆盖所有当前数据。",
+    "message": "是否确定导入数据？",
     "description": "Confirmation message for importing data"
   },
   "importSuccessMessage": {

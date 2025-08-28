@@ -64,7 +64,7 @@
     "description": "Title for the import button"
   },
   "importConfirmMessage": {
-    "message": "Import data? This will overwrite all current data.",
+    "message": "Confirm Import Data?",
     "description": "Confirmation message for importing data"
   },
   "importSuccessMessage": {

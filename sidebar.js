@@ -758,9 +758,7 @@ function handleEdit(button, item) {
     //   isMappingMode = false;
     //   updateMappingButtonUI();
     // }
-    // Return true to indicate you wish to send a response asynchronously
-    // This is good practice, though not strictly necessary for all listeners.
-    return true; 
+
   });
   
   // --- 初始加载 ---
