@@ -53,6 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const importFileInput = document.getElementById('import-file-input');
   const formPanelBtn = document.getElementById('form-panel-btn');
   const extractFormWrapper = document.getElementById('extract-form-wrapper');
+  const addClipboardBtn = document.getElementById('add-clipboard-btn'); // 新增按钮
   
   // 表单面板元素
   const backToMainBtn = document.getElementById('back-to-main-btn');
@@ -121,6 +122,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const saveMappingBtn = document.getElementById('save-mapping-btn');
     if (saveMappingBtn) saveMappingBtn.textContent = chrome.i18n.getMessage("saveButtonTitle");
+    
+    // 设置添加剪贴板内容模态框的国际化文本
+    const addClipboardTitle = document.querySelector('#add-clipboard-modal .modal-header h2');
+    if (addClipboardTitle) addClipboardTitle.textContent = chrome.i18n.getMessage("addClipboardTitle");
+    
+    const clipboardTextLabel = document.querySelector('label[for="clipboard-text"]');
+    if (clipboardTextLabel) clipboardTextLabel.textContent = chrome.i18n.getMessage("clipboardTextLabel");
+    
+    const clipboardTextPlaceholder = document.getElementById('clipboard-text');
+    if (clipboardTextPlaceholder) clipboardTextPlaceholder.placeholder = chrome.i18n.getMessage("clipboardTextPlaceholder");
+    
+    const clipboardUrlLabel = document.querySelector('label[for="clipboard-url"]');
+    if (clipboardUrlLabel) clipboardUrlLabel.textContent = chrome.i18n.getMessage("clipboardUrlLabel");
+    
+    const clipboardUrlPlaceholder = document.getElementById('clipboard-url');
+    if (clipboardUrlPlaceholder) clipboardUrlPlaceholder.placeholder = chrome.i18n.getMessage("clipboardUrlPlaceholder");
+    
+    const saveClipboardBtn = document.getElementById('save-clipboard-btn');
+    if (saveClipboardBtn) saveClipboardBtn.textContent = chrome.i18n.getMessage("saveButtonTitle");
   }
   setModalI18nText();
   
@@ -132,6 +152,11 @@ document.addEventListener('DOMContentLoaded', () => {
     formTabButtons[0].click(); 
   });
   backToMainBtn.addEventListener('click', () => switchToPanel(mainPanel));
+  
+  // 添加剪贴板内容按钮事件
+  if (addClipboardBtn) {
+    addClipboardBtn.addEventListener('click', showAddClipboardModal);
+  }
 
   // 导出/导入
   exportBtn.addEventListener('click', exportClipboardData);
@@ -206,6 +231,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  // 添加剪贴板内容模态框事件监听器
+  document.getElementById('save-clipboard-btn')?.addEventListener('click', saveCustomClipboardItem);
+  
   // 标签页切换
   formTabButtons.forEach(button => {
     button.addEventListener('click', () => {
@@ -235,6 +263,50 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
   // --- 核心功能函数 ---
+  
+  // 显示添加剪贴板内容模态框
+  function showAddClipboardModal() {
+    const modal = document.getElementById('add-clipboard-modal');
+    
+    if (modal) {
+        // 清空输入框
+        document.getElementById('clipboard-text').value = '';
+        
+        // 显示模态框
+        modal.classList.remove('hidden');
+    }
+  }
+  
+  // 保存自定义剪贴板内容
+  function saveCustomClipboardItem() {
+    const text = document.getElementById('clipboard-text').value.trim();
+    
+    if (!text) {
+        alert(chrome.i18n.getMessage("clipboardTextRequired"));
+        return;
+    }
+    
+    const newItem = {
+        text: text,
+        timestamp: new Date().toISOString(),
+        url: '自定义', // 默认值改为"自定义"
+        domain: '自定义',
+        tags: []
+    };
+    
+    chrome.runtime.sendMessage({ action: 'addClipboardItem', item: newItem }, (response) => {
+        if (response && response.success) {
+            // 隐藏模态框
+            document.getElementById('add-clipboard-modal')?.classList.add('hidden');
+            // 重新加载剪贴板项目
+            loadClipboardItems();
+            alert(chrome.i18n.getMessage("clipboardItemAdded"));
+        } else {
+            const errorMessage = response?.error || chrome.i18n.getMessage("clipboardItemAddFailed");
+            alert(errorMessage);
+        }
+    });
+  }
   
   // 面板和标签页管理
   function switchToPanel(panelToShow) {
@@ -634,6 +706,15 @@ document.addEventListener('DOMContentLoaded', () => {
   
   // 添加标签按钮
   itemDiv.querySelector('.add-tag-btn').addEventListener('click', () => handleAddTag(item));
+  
+  // 链接按钮 - 阻止"自定义"链接跳转
+  const linkButton = itemDiv.querySelector('.item-actions a');
+  if (item.url === '自定义') {
+    linkButton.addEventListener('click', (e) => {
+      e.preventDefault();
+      // 可以选择显示一个提示信息，或者什么都不做
+    });
+  }
   
   // 删除单个标签的按钮 (为每个标签按钮都添加监听)
   itemDiv.querySelectorAll('.delete-tag-btn').forEach(btn => {

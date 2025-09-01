@@ -74,8 +74,8 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
     const newItem = {
       text: info.selectionText,
       timestamp: new Date().toISOString(),
-      url: tab.url,
-      domain: new URL(tab.url).hostname,
+      url: tab && tab.url ? tab.url : '自定义',
+      domain: tab && tab.url ? new URL(tab.url).hostname : '自定义',
       tags: []
     };
 
@@ -203,48 +203,31 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             return true;
         }
 
-        chrome.storage.local.get(null, (existingData) => {
+        chrome.storage.local.set(dataToImport, () => {
             if (chrome.runtime.lastError) {
                 sendResponse({ success: false, error: chrome.runtime.lastError.message });
-                return;
+            } else {
+                sendResponse({ success: true });
+                // 通知所有已连接的侧边栏更新
+                chrome.runtime.sendMessage({ message: 'clipboardUpdated' });
             }
-
-            const mergedData = {
-                clipboard: existingData.clipboard || [],
-                savedForms: existingData.savedForms || [],
-                formMappings: existingData.formMappings || []
-            };
-
-            if (dataToImport.clipboard && Array.isArray(dataToImport.clipboard)) {
-                const existingTimestamps = new Set(mergedData.clipboard.map(item => item.timestamp));
-                const newItems = dataToImport.clipboard.filter(item => !existingTimestamps.has(item.timestamp));
-                mergedData.clipboard.push(...newItems);
-                mergedData.clipboard.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-            }
-            
-            if (dataToImport.savedForms && Array.isArray(dataToImport.savedForms)) {
-                const existingTimestamps = new Set(mergedData.savedForms.map(form => form.timestamp));
-                const newForms = dataToImport.savedForms.filter(form => !existingTimestamps.has(form.timestamp));
-                mergedData.savedForms.push(...newForms);
-                mergedData.savedForms.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-            }
-
-            if (dataToImport.formMappings && Array.isArray(dataToImport.formMappings)) {
-                const existingMappingKeys = new Set(mergedData.formMappings.map(m => `${m.name}|${m.urlPattern}`));
-                const newMappings = dataToImport.formMappings.filter(m => !existingMappingKeys.has(`${m.name}|${m.urlPattern}`));
-                mergedData.formMappings.push(...newMappings);
-            }
-            
-            chrome.storage.local.set(mergedData, () => {
-                if (chrome.runtime.lastError) {
-                    sendResponse({ success: false, error: chrome.runtime.lastError.message });
-                } else {
-                    sendResponse({ success: true });
-                }
-            });
         });
-        
         return true;
+    },
+    addClipboardItem: (request, sender, sendResponse) => {
+      chrome.storage.local.get({ clipboard: [] }, (result) => {
+        const clipboard = [request.item, ...result.clipboard];
+        chrome.storage.local.set({ clipboard }, () => {
+          if (chrome.runtime.lastError) {
+            sendResponse({ success: false, error: chrome.runtime.lastError.message });
+          } else {
+            sendResponse({ success: true });
+            // 通知所有已连接的侧边栏更新
+            chrome.runtime.sendMessage({ message: 'clipboardUpdated' });
+          }
+        });
+      });
+      return true;
     },
     extractFormData: (request, sender, sendResponse) => {
       sendMessageToActiveTab({ action: "extractForm" }, sendResponse);

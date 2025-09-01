@@ -14,6 +14,7 @@
       <div class="header-row">
         <h1 id="extension-title" data-i18n="extensionName"></h1>
         <div class="button-group">
+          <button id="add-clipboard-btn" class="import-export-btn" data-i18n-title="addClipboardButtonTitle">➕</button>
           <button id="form-panel-btn" class="import-export-btn" data-i18n-title="formPanelButtonTitle">📋</button>
           <button id="import-btn" class="import-export-btn" data-i18n-title="importButtonTitle">📥</button>
           <button id="export-btn" class="import-export-btn" data-i18n-title="exportButtonTitle">📤</button>
@@ -106,6 +107,25 @@
           <div class="form-actions">
             <button id="save-mapping-btn"></button>
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 添加剪贴板内容模态框 -->
+  <div id="add-clipboard-modal" class="modal hidden">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 data-i18n="addClipboardTitle"></h2>
+        <span class="close-modal">&times;</span>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="clipboard-text" data-i18n="clipboardTextLabel"></label>
+          <textarea id="clipboard-text" rows="6" placeholder="" data-i18n-placeholder="clipboardTextPlaceholder"></textarea>
+        </div>
+        <div class="form-actions">
+          <button id="save-clipboard-btn" data-i18n="saveButtonTitle"></button>
         </div>
       </div>
     </div>

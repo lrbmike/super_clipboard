@@ -199,39 +199,47 @@
   "savedMetaPrefix": { "message": "Saved", "description": "Prefix for saved timestamp" },
   "autofillButtonText": { "message": "Auto-fill", "description": "Text for the autofill button" },
   "deleteFormConfirm": {
-    "message": "Are you sure you want to delete this saved form?",
-    "description": "Confirmation for deleting a saved form."
+    "message": "Are you sure you want to delete this form?",
+    "description": "Confirmation message for deleting a saved form"
   },
-  "noMappingFieldDataAlert": { "message": "No field data to save.", "description": "Alert when saving mapping with no data." },
-  "mappingInputErrorAlert": { "message": "Please provide both a mapping name and a column value.", "description": "Alert for incomplete mapping form." },
-  "mappingSaveSuccessAlert": { "message": "Mapping saved successfully!", "description": "Alert for successful mapping save." },
-  "mappingSaveFailedAlert": {
-    "message": "Failed to save mapping: $error$",
-    "description": "Alert for failed mapping save.",
-    "placeholders": { "error": { "content": "$1" } }
+  "addClipboardButtonTitle": {
+    "message": "Add Clipboard Item",
+    "description": "Title for the add clipboard item button"
+  },
+  "addClipboardTitle": {
+    "message": "Add Clipboard Item",
+    "description": "Title for the add clipboard item modal"
+  },
+  "clipboardTextLabel": {
+    "message": "Content",
+    "description": "Label for the clipboard text input"
+  },
+  "clipboardTextPlaceholder": {
+    "message": "Enter clipboard content...",
+    "description": "Placeholder for the clipboard text input"
+  },
+  "clipboardUrlLabel": {
+    "message": "URL",
+    "description": "Label for the clipboard URL input"
+  },
+  "clipboardUrlPlaceholder": {
+    "message": "Enter URL or '自定义' for custom content...",
+    "description": "Placeholder for the clipboard URL input"
+  },
+  "clipboardTextRequired": {
+    "message": "Please enter clipboard content.",
+    "description": "Error message when clipboard text is empty"
+  },
+  "clipboardItemAdded": {
+    "message": "Clipboard item added successfully.",
+    "description": "Success message after adding a clipboard item"
+  },
+  "clipboardItemAddFailed": {
+    "message": "Failed to add clipboard item.",
+    "description": "Error message when adding a clipboard item fails"
   },
   "contextMenuAddToSuperClipboard": {
     "message": "Add to Super Clipboard",
-    "description": "Title for the context menu item when selecting text."
-  },
-  "errorInjectScriptFailed": {
-    "message": "Failed to inject content script.",
-    "description": "Error message when content script injection fails."
-  },
-  "errorConnectionFailedAfterInject": {
-    "message": "Connection failed after script injection.",
-    "description": "Error message when connection still fails after injection."
-  },
-  "errorNoActiveTab": {
-    "message": "No active tab found.",
-    "description": "Error message when no active tab is found to send a message to."
-  },
-  "errorItemNotFound": {
-    "message": "Item not found",
-    "description": "Error when trying to update or delete a non-existent clipboard item."
-  },
-  "errorFormNotFound": {
-    "message": "Form not found",
-    "description": "Error when trying to update or delete a non-existent saved form."
+    "description": "Title for the context menu item to add selected text to Super Clipboard"
   }
 }

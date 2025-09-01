@@ -199,39 +199,47 @@
   "savedMetaPrefix": { "message": "保存于", "description": "Prefix for saved timestamp" },
   "autofillButtonText": { "message": "自动填充", "description": "Text for the autofill button" },
   "deleteFormConfirm": {
-    "message": "您确定要删除这个已保存的表单吗？",
-    "description": "Confirmation for deleting a saved form."
+    "message": "您确定要删除此表单吗？",
+    "description": "Confirmation message for deleting a saved form"
   },
-  "noMappingFieldDataAlert": { "message": "没有要保存的字段数据。", "description": "Alert when saving mapping with no data." },
-  "mappingInputErrorAlert": { "message": "请输入映射名称和列值。", "description": "Alert for incomplete mapping form." },
-  "mappingSaveSuccessAlert": { "message": "映射保存成功！", "description": "Alert for successful mapping save." },
-  "mappingSaveFailedAlert": {
-    "message": "保存映射失败: $error$",
-    "description": "Alert for failed mapping save.",
-    "placeholders": { "error": { "content": "$1" } }
+  "addClipboardButtonTitle": {
+    "message": "添加剪贴板项目",
+    "description": "Title for the add clipboard item button"
+  },
+  "addClipboardTitle": {
+    "message": "添加剪贴板项目",
+    "description": "Title for the add clipboard item modal"
+  },
+  "clipboardTextLabel": {
+    "message": "内容",
+    "description": "Label for the clipboard text input"
+  },
+  "clipboardTextPlaceholder": {
+    "message": "输入剪贴板内容...",
+    "description": "Placeholder for the clipboard text input"
+  },
+  "clipboardUrlLabel": {
+    "message": "链接",
+    "description": "Label for the clipboard URL input"
+  },
+  "clipboardUrlPlaceholder": {
+    "message": "输入链接或'自定义'表示自定义内容...",
+    "description": "Placeholder for the clipboard URL input"
+  },
+  "clipboardTextRequired": {
+    "message": "请输入剪贴板内容。",
+    "description": "Error message when clipboard text is empty"
+  },
+  "clipboardItemAdded": {
+    "message": "剪贴板项目添加成功。",
+    "description": "Success message after adding a clipboard item"
+  },
+  "clipboardItemAddFailed": {
+    "message": "添加剪贴板项目失败。",
+    "description": "Error message when adding a clipboard item fails"
   },
   "contextMenuAddToSuperClipboard": {
-    "message": "添加到 Super Clipboard",
-    "description": "选中文字时右键菜单的标题。"
-  },
-  "errorInjectScriptFailed": {
-    "message": "未能注入内容脚本。",
-    "description": "内容脚本注入失败时的错误信息。"
-  },
-  "errorConnectionFailedAfterInject": {
-    "message": "脚本注入后连接失败。",
-    "description": "注入后连接仍然失败的错误信息。"
-  },
-  "errorNoActiveTab": {
-    "message": "未找到活动标签页。",
-    "description": "找不到活动标签页来发送消息时的错误信息。"
-  },
-  "errorItemNotFound": {
-    "message": "项目未找到",
-    "description": "尝试更新或删除不存在的剪贴板项目时的错误。"
-  },
-  "errorFormNotFound": {
-    "message": "表单未找到",
-    "description": "尝试更新或删除不存在的已保存表单时的错误。"
+    "message": "添加到超级剪贴板",
+    "description": "右键菜单项标题，用于将选中文本添加到超级剪贴板"
   }
 }
