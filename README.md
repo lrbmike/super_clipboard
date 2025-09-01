@@ -7,6 +7,7 @@ A powerful clipboard extension for Chrome that helps you better manage and organ
 ## Features
 
 - **Content Collection**: Copy selected text to the extension's clipboard via the context menu
+- **Add Custom Content**: Manually add custom content to the clipboard using the add button
 - **History Tracking**: Save all copied content, including text, timestamps, and source URLs
 - **Tag Management**: Add tags to clipboard items for easy categorization and searching
 - **Search Functionality**: Search through clipboard content and tags
@@ -27,6 +28,7 @@ A powerful clipboard extension for Chrome that helps you better manage and organ
 
 ### Using Clipboard Features
 
+- Use the ➕ button to manually add custom content to your clipboard
 - Use the search box to find specific clipboard items by content
 - Filter items by tags using the tag filter section
 - Copy items to your system clipboard with the copy button
