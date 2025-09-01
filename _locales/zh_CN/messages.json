@@ -239,7 +239,7 @@
     "description": "Error message when adding a clipboard item fails"
   },
   "contextMenuAddToSuperClipboard": {
-    "message": "添加到超级剪贴板",
+    "message": "添加到 Super Clipboard",
     "description": "右键菜单项标题，用于将选中文本添加到超级剪贴板"
   }
 }

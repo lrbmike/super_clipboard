@@ -82,10 +82,19 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
     chrome.storage.local.get({ clipboard: [] }, (result) => {
       const clipboard = [newItem, ...result.clipboard];
       chrome.storage.local.set({ clipboard }, () => {
-        // 通知侧边栏更新
-        chrome.runtime.sendMessage({ message: 'clipboardUpdated' });
+        // 通知侧边栏更新，添加错误处理
+        chrome.runtime.sendMessage({ message: 'clipboardUpdated' }, (response) => {
+          if (chrome.runtime.lastError) {
+            console.warn("Failed to send clipboardUpdated message:", chrome.runtime.lastError.message);
+          }
+        });
       });
     });
+    
+    // 自动打开侧边栏
+    if (tab && tab.windowId) {
+      chrome.sidePanel.open({ windowId: tab.windowId });
+    }
   }
 });
 
@@ -93,7 +102,6 @@ chrome.contextMenus.onClicked.addListener((info, tab) => {
 chrome.action.onClicked.addListener((tab) => {
   chrome.sidePanel.open({ windowId: tab.windowId });
 });
-
 
 // --- 消息中心：处理来自 sidebar 和 content script 的所有消息 ---
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
@@ -209,7 +217,11 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             } else {
                 sendResponse({ success: true });
                 // 通知所有已连接的侧边栏更新
-                chrome.runtime.sendMessage({ message: 'clipboardUpdated' });
+                chrome.runtime.sendMessage({ message: 'clipboardUpdated' }, (response) => {
+                  if (chrome.runtime.lastError) {
+                    console.warn("Failed to send clipboardUpdated message after import:", chrome.runtime.lastError.message);
+                  }
+                });
             }
         });
         return true;
@@ -223,7 +235,11 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
           } else {
             sendResponse({ success: true });
             // 通知所有已连接的侧边栏更新
-            chrome.runtime.sendMessage({ message: 'clipboardUpdated' });
+            chrome.runtime.sendMessage({ message: 'clipboardUpdated' }, (response) => {
+              if (chrome.runtime.lastError) {
+                console.warn("Failed to send clipboardUpdated message:", chrome.runtime.lastError.message);
+              }
+            });
           }
         });
       });
@@ -244,10 +260,18 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     },
     // 下面这些是不需要响应的广播消息，所以它们没有 sendResponse，也不返回 true
     showMappingDialog: (request) => {
-        chrome.runtime.sendMessage(request);
+        chrome.runtime.sendMessage(request, (response) => {
+          if (chrome.runtime.lastError) {
+            console.warn("Failed to send showMappingDialog message:", chrome.runtime.lastError.message);
+          }
+        });
     },
     mapping_finished: (request) => {
-        chrome.runtime.sendMessage(request);
+        chrome.runtime.sendMessage(request, (response) => {
+          if (chrome.runtime.lastError) {
+            console.warn("Failed to send mapping_finished message:", chrome.runtime.lastError.message);
+          }
+        });
     }
   };
 
